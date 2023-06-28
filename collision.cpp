@@ -7,7 +7,6 @@
 
 #include "collision.h"
 #include "player.h"
-#include "enemy.h"
 #include "bullet.h"
 #include "main.h"
 
@@ -24,30 +23,7 @@ void UninitCollision() {
 
 }
 void UpdateCollision() {
-	D3DXVECTOR2 playerPos = ((Player*)GetPlayerInstance())->GetPos();
-	D3DXVECTOR2 enemyPos[5];
-	for(int i = 0; i < NUM_ENEMY; i++){
-		enemyPos[i] = GetEnemyPos(i);
-	}
-	for (int i = 0; i < NUM_ENEMY; i++) {
-		if (!GetEnemyState(i)) {
-			if (/*CheckHitBB(playerPos.x, playerPos.y, 96.0f, 96.0f, enemyPos[i].x, enemyPos[i].y, 96.0f, 96.0f)*/
-				CheckHitBC(playerPos.x, playerPos.y,48.0f, enemyPos[i].x, enemyPos[i].y,48.0f)) {
-				DestroyEnemy(i);
-			}
-			else {
-				for (int j = 0; j < GetBulletNum(); j++) {
-					D3DXVECTOR2 bulletPos = GetBulletPos(j);
-					if (!GetBulletState(j)) {
-						if (CheckHitBB(bulletPos.x, bulletPos.y, 24.0f,24.0f, enemyPos[i].x, enemyPos[i].y, 48.0f,48.0f)) {
-							DestroyEnemy(i);
-							DestroyBullet(j);
-						}
-					}
-				}
-			}
-		}
-	}
+	
 }
 void DrawCollision() {
 

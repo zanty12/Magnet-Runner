@@ -15,7 +15,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define NUM_POLYGON 100	//表示するポリゴンの数
+#define NUM_POLYGON 2	//表示するポリゴンの数
 
 #define ANIME_PTN_YOKO 10
 #define ANIME_PTN_TATE 1
@@ -40,7 +40,6 @@ struct POLYGON{
 	float			rot;
 };
 
-static POLYGON g_Player;
 static POLYGON g_Polygon[NUM_POLYGON];
 
 static int g_TexNo = 0;
@@ -66,12 +65,6 @@ void InitPolygon(void)
 	g_TexNo = LoadTexture((char*)"data/TEXTURE/number000.png");
 
 	//初期化
-	g_Player.pos.x = SCREEN_WIDTH / 2;
-	g_Player.pos.y = SCREEN_HEIGHT / 2;
-	g_Player.vel.x = 0.0f;
-	g_Player.vel.y = 0.0f;
-	g_Player.color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	g_Player.rot = 0.0f;
 
 	for (int i = 0; i < NUM_POLYGON; i++)
 	{
@@ -81,7 +74,7 @@ void InitPolygon(void)
 		g_Polygon[i].vel.x = 0.0f;
 		g_Polygon[i].vel.y = 0.0f;
 
-		g_Polygon[i].color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
+		g_Polygon[i].color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 		g_Polygon[i].rot = frand()*(D3DX_PI * 2);
 	}
@@ -103,36 +96,6 @@ void UninitPolygon(void)
 //=============================================================================
 void UpdatePolygon(void)
 {
-	for (int i = 0; i < NUM_POLYGON; i++)
-	{
-		g_Polygon[i].rot += 0.01f;
-	}
-
-	//キーボード
-	if (GetKeyboardPress(DIK_UP))
-	{
-		g_Player.pos.y -= 5.0f;
-	}
-	if (GetKeyboardPress(DIK_DOWN))
-	{
-		g_Player.pos.y += 5.0f;
-	}
-	if (GetKeyboardPress(DIK_LEFT))
-	{
-		g_Player.pos.x -= 5.0f;
-	}
-	if (GetKeyboardPress(DIK_RIGHT))
-	{
-		g_Player.pos.x += 5.0f;
-	}
-
-	//ゲームパッド
-	if (IsButtonPressed(0, BUTTON_A) || GetKeyboardPress(DIK_SPACE))
-	{
-		//座標のリセット
-		g_Player.pos.x = SCREEN_WIDTH / 2;
-		g_Player.pos.y = SCREEN_HEIGHT / 2;
-	}
 
 
 	g_AnimeSkipFrame++;
@@ -160,26 +123,6 @@ void UpdatePolygon(void)
 //=============================================================================
 void DrawPolygon(void)
 {
-	//for (int i = 0; i < NUM_POLYGON; i++)
-	//{
-	//	DrawSpriteColorRotate(g_TexNo,
-	//		g_Polygon[i].pos.x, g_Polygon[i].pos.y,
-	//		300.0f, 300.0f,
-	//		0.0f, 0.0f,
-	//		1.0f, 1.0f,
-	//		g_Polygon[i].color.r, g_Polygon[i].color.g, g_Polygon[i].color.b, g_Polygon[i].color.a,
-	//		g_Polygon[i].rot);
-	//}
-
-	////プレイヤーの描画
-	//DrawSpriteColorRotate(g_TexNo,
-	//	g_Player.pos.x, g_Player.pos.y,
-	//	280.0f, 400.0f,
-	//	g_U, g_V,//UV値の始点
-	//	ANIME_PTN_U, ANIME_PTN_V,
-	//	g_Player.color.r, g_Player.color.g, g_Player.color.b, g_Player.color.a,
-	//	g_Player.rot);
-
 	int score = g_Score;
 
 	for (int i = 0; i < 5; i++)
@@ -190,8 +133,8 @@ void DrawPolygon(void)
 			70.0f, 140.0f,
 			ANIME_PTN_U * (score % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
-			g_Player.color.r, g_Player.color.g, g_Player.color.b, g_Player.color.a,
-			g_Player.rot);
+			g_Polygon[0].color.r, g_Polygon[0].color.g, g_Polygon[0].color.b, g_Polygon[0].color.a,
+			0.0f);
 
 		score = score / 10;
 	}
@@ -207,8 +150,8 @@ void DrawPolygon(void)
 			70.0f, 140.0f,
 			ANIME_PTN_U * (second % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
-			g_Player.color.r, g_Player.color.g, g_Player.color.b, g_Player.color.a,
-			g_Player.rot);
+			g_Polygon[0].color.r, g_Polygon[0].color.g, g_Polygon[0].color.b, g_Polygon[0].color.a,
+			0.0f);
 
 		second = second / 10;
 	}
@@ -225,8 +168,8 @@ void DrawPolygon(void)
 			70.0f, 140.0f,
 			ANIME_PTN_U * (milisecond % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
-			g_Player.color.r, g_Player.color.g, g_Player.color.b, g_Player.color.a,
-			g_Player.rot);
+			g_Polygon[0].color.r, g_Polygon[0].color.g, g_Polygon[0].color.b, g_Polygon[0].color.a,
+			0.0f);
 
 		milisecond = milisecond / 10;
 	}

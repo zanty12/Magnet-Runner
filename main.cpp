@@ -14,9 +14,9 @@
 #include "texture.h"
 #include "sprite.h"
 #include "player.h"
-#include "enemy.h"
 #include "collision.h"
 #include "bullet.h"
+#include "plus.h"
 
 
 
@@ -50,6 +50,7 @@ char	g_DebugStr[2048] = WINDOW_CAPTION;	// デバッグ文字表示用
 
 #endif
 Player* g_Player = nullptr;
+Block* g_Block = nullptr;
 
 //=============================================================================
 // メイン関数
@@ -221,8 +222,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitPolygon();
 	
 	g_Player = new Player();
-	InitEnemy();
 	InitBullet();
+
+	g_Block = new Plus(D3DXVECTOR2(100.0f,100.0f));
 
 	return S_OK;
 }
@@ -235,6 +237,8 @@ void Uninit(void)
 {
 	delete g_Player;
 	g_Player = nullptr;
+	delete g_Block;
+	g_Block = nullptr;
 
 	// 頂点管理の終了処理
 	UninitPolygon();
@@ -251,7 +255,6 @@ void Uninit(void)
 	// レンダリングの終了処理
 	UninitRenderer();
 	
-	UninitEnemy();
 	UninitBullet();
 }
 
@@ -266,9 +269,8 @@ void Update(void)
 	// 頂点管理の更新処理
 	UpdatePolygon();
 
-	g_Player->UpdatePlayer();
+	g_Player->Update();
 
-	UpdateEnemy();
 
 	UpdateCollision();
 	UpdateBullet();
@@ -292,9 +294,9 @@ void Draw(void)
 	// 頂点管理の描画処理
 	DrawPolygon();
 
-	g_Player->DrawPlayer();
+	g_Player->Draw();
+	g_Block->Draw();
 
-	DrawEnemy();
 	DrawBullet();
 
 	// バックバッファ、フロントバッファ入れ替え

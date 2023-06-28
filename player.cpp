@@ -38,24 +38,21 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-Player::Player() {
-	TexNo = LoadTexture((char*)"data/TEXTURE/majo.png");
+Player::Player() : GameObject(D3DXVECTOR2(960.0f,960.0f), D3DXVECTOR2(96.0f, 96.0f)){
+	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
 }
 
-Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel)
+Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos,D3DXVECTOR2(96.0f, 96.0f))
 {
-	pos = pos;
 	vel = vel;
-	TexNo = LoadTexture((char*)"data/TEXTURE/majo.png");
+	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
 }
 
-Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot)
+Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, D3DXVECTOR2(96.0f, 96.0f), color)
 {
-	pos = pos;
 	vel = vel;
-	color = color;
 	rot = rot;
-	TexNo = LoadTexture((char*)"data/TEXTURE/majo.png");
+	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
 }
 
 //=============================================================================
@@ -67,49 +64,45 @@ Player::~Player() = default;
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Player::UpdatePlayer(void)
+void Player::Update(void)
 {
 	static bool isAnim = false;
-	static int input = 4;
+	Vel_.x = 0.0f;
+	Vel_.y = 0.0f;
 	//キーボード
 	if (GetKeyboardPress(DIK_W))
 	{
 		Vel_.y = -5.0f;
 		isAnim = true;
 		V_ = 0.75f;
-		input--;
+		
 	}
 	if (GetKeyboardPress(DIK_S))
 	{
 		Vel_.y = 5.0f;
 		isAnim = true;
 		V_ = 0.0f;
-		input--;
+		
 	}
 	if (GetKeyboardPress(DIK_A))
 	{
 		Vel_.x = -5.0f;
 		isAnim = true;
 		V_ = 0.25f;
-		input--;
+		
 	}
 	if (GetKeyboardPress(DIK_D))
 	{
 		Vel_.x = 5.0f;
 		isAnim = true;
 		V_ = 0.5f;
-		input--;
+		
 	}
 
 	if ((Vel_.y != 0.0f && Vel_.x < 0.0f) || Vel_.x < 0.0f)
 		Rot_ = atan(Vel_.y / Vel_.x) - D3DX_PI;
 	else if(Vel_.x != 0.0f || Vel_.y != 0.0f)
 		Rot_ = atan(Vel_.y / Vel_.x);
-
-	if (input == 4) {
-		Vel_.x = 0.0f;
-		Vel_.y = 0.0f;
-	}
 
 	Pos_.x += Vel_.x;
 	Pos_.y += Vel_.y;
@@ -148,7 +141,7 @@ void Player::UpdatePlayer(void)
 	}
 	else {
 		AnimePattern_ = 1;
-		input = 4;
+		
 	}
 	isAnim = false;
 	U_ = (AnimePattern_ % ANIME_PTN_YOKO) * ANIME_PTN_U;
@@ -158,20 +151,16 @@ void Player::UpdatePlayer(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Player::DrawPlayer(void)
+void Player::Draw(void)
 {
 	//プレイヤーの描画
-		DrawSpriteColor(TexNo,
+
+		DrawSpriteColor(TexNo_,
 		Pos_.x, Pos_.y,
 		96.0f, 96.0f,
 		U_, V_,//UV値の始点
 		ANIME_PTN_U, 0.25f,
 		Color_.r, Color_.g, Color_.b, Color_.a);
-}
-
-D3DXVECTOR2 Player::GetPos(void)
-{
-	return Pos_;
 }
 
 

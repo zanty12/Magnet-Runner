@@ -128,24 +128,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="block.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="collision.cpp" />
-    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="plus.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="block.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="collision.h" />
-    <ClInclude Include="enemy.h" />
+    <ClInclude Include="gameobject.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="plus.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="sprite.h" />
