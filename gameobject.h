@@ -20,6 +20,7 @@ public:
 	GameObject() = default;
 	GameObject(D3DXVECTOR2 pos) :Pos_(pos) {}
 	GameObject(D3DXVECTOR2 pos, D3DXVECTOR2 size) :Pos_(pos), Size_(size) {}
+	GameObject(D3DXVECTOR2 pos,D3DXCOLOR color) :Pos_(pos), Color_(color) {}
 	GameObject(D3DXVECTOR2 pos, D3DXVECTOR2 size, D3DXCOLOR color) :Pos_(pos), Size_(size), Color_(color) {}
 	~GameObject() = default;
 	D3DXVECTOR2 GetPos() { return Pos_; }
@@ -44,5 +45,6 @@ public:
 			1.0f, 1.0,
 			Color_.r, Color_.g, Color_.b, Color_.a);
 	}
+
 };
 
