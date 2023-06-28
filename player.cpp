@@ -38,21 +38,24 @@
 //=============================================================================
 // èâä˙âªèàóù
 //=============================================================================
-Player::Player() : GameObject(D3DXVECTOR2(960.0f,960.0f), D3DXVECTOR2(96.0f, 96.0f)){
-	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
+Player::Player() : GameObject(D3DXVECTOR2(960.0f,960.0f)){
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	Size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
-Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos,D3DXVECTOR2(96.0f, 96.0f))
+Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
 {
 	vel = vel;
-	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	Size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
-Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, D3DXVECTOR2(96.0f, 96.0f), color)
+Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, color)
 {
 	vel = vel;
 	rot = rot;
-	SetTexture(LoadTexture((char*)"data/TEXTURE/majo.png"));
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	Size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
 //=============================================================================
