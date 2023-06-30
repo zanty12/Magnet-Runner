@@ -130,10 +130,14 @@
   <ItemGroup>
     <ClCompile Include="block.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="cell.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="mapmngr.cpp" />
+    <ClCompile Include="minus.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="plus.cpp" />
     <ClCompile Include="polygon.cpp" />
@@ -144,10 +148,14 @@
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="cell.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="mapmngr.h" />
+    <ClInclude Include="minus.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="plus.h" />
     <ClInclude Include="polygon.h" />

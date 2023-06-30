@@ -2,15 +2,16 @@
 
 #include "main.h"
 #include "renderer.h"
-#include "gameobject.h"
+#include "cell.h"
 
-class Block : public GameObject{
+class Block : public Cell{
 
 public:
 	Block();
 	Block(D3DXVECTOR2 pos);
 	Block(D3DXVECTOR2 pos, D3DXCOLOR color);
 	~Block();
+	void Update(){}
 
 };
 
