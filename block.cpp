@@ -2,19 +2,19 @@
 #include "sprite.h"
 #include "texture.h"
 
-Block::Block() :GameObject()
+Block::Block() :Cell()
 {
-	Size_ = D3DXVECTOR2(96.0f, 96.0f);
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::Block(D3DXVECTOR2 pos) : GameObject(pos)
+Block::Block(D3DXVECTOR2 pos) : Cell(pos)
 {
-	Size_ = D3DXVECTOR2(96.0f, 96.0f);
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
 Block::Block(D3DXVECTOR2 pos, D3DXCOLOR color)
-	:GameObject(pos,color){
-	Size_ = D3DXVECTOR2(96.0f, 96.0f);
+	:Cell(pos,color){
+	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
 Block::~Block()

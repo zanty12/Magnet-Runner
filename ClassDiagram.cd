@@ -28,5 +28,12 @@
       <FileName>player.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Cell" Collapsed="true">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAACAAAAAgCAAABIEAgAQCAAQACAAAgAgAAAgAA=</HashCode>
+      <FileName>cell.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Yu Gothic UI" Size="9" />
 </ClassDiagram>

@@ -8,7 +8,7 @@ public:
 	Plus(D3DXVECTOR2 pos);
 	Plus(D3DXVECTOR2 pos, D3DXCOLOR color);
 	~Plus();
-	void Update() {}
+	void Update();
 
 };
 

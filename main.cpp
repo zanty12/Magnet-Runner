@@ -16,7 +16,7 @@
 #include "player.h"
 #include "collision.h"
 #include "bullet.h"
-#include "plus.h"
+#include "mapmngr.h"
 
 
 
@@ -50,7 +50,7 @@ char	g_DebugStr[2048] = WINDOW_CAPTION;	// デバッグ文字表示用
 
 #endif
 Player* g_Player = nullptr;
-Block* g_Block = nullptr;
+Mapmngr* g_Mapmngr = nullptr;
 
 //=============================================================================
 // メイン関数
@@ -224,7 +224,8 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_Player = new Player();
 	InitBullet();
 
-	g_Block = new Plus(D3DXVECTOR2(100.0f,100.0f));
+	g_Mapmngr = new Mapmngr();
+	g_Mapmngr->LoadMap("data/MAP/map.csv");
 
 	return S_OK;
 }
@@ -237,8 +238,8 @@ void Uninit(void)
 {
 	delete g_Player;
 	g_Player = nullptr;
-	delete g_Block;
-	g_Block = nullptr;
+	delete g_Mapmngr;
+	g_Mapmngr = nullptr;
 
 	// 頂点管理の終了処理
 	UninitPolygon();
@@ -295,7 +296,7 @@ void Draw(void)
 	DrawPolygon();
 
 	g_Player->Draw();
-	g_Block->Draw();
+	g_Mapmngr->DrawMap();
 
 	DrawBullet();
 

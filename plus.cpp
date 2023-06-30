@@ -24,3 +24,8 @@ Plus::~Plus()
 {
 }
 
+void Plus::Update()
+{
+	//TODO: Update
+}
+
