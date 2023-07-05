@@ -22,15 +22,19 @@ public:
 	~Map();
 	void PutCell(int x, int y, Cell* cell) { Map_[y * Width_ + x] = cell; }
 	void PutCell(int x, int y, int type);
-	Cell* GetCell(int x, int y) { if (Map_[y * Width_ + x] != nullptr) return Map_[y * Width_ + x]; }
+	Cell* GetCell(int x, int y) {return Map_[y * Width_ + x]; }
 	void Draw();
+	int GetWidth() { return Width_; }
+	int GetHeight() { return Height_; }
 	void SetWidth(int width) { Width_ = width; }
 	void SetHeight(int height) { Height_ = height; }
 
 	Cell* GetCell(D3DXVECTOR2 pos) {
 		int x = (int)(pos.x / 96.0f);
 		int y = (int)(pos.y / 96.0f);
-		if (Map_[y * Width_ + x] != nullptr) return Map_[y * Width_ + x];
+		return Map_[y * Width_ + x];
 	}
+	
+
 };
 

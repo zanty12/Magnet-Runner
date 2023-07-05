@@ -28,8 +28,8 @@ public:
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel);
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot);
 	~Player();
-	void Update(void);
-	void Draw(void);
+	void Update(void) override;
+	void Draw(void) override;
 	D3DXVECTOR2 GetVel() { return Vel_; }
 	float GetRotation() { return Rot_; }
 	void SetVel(D3DXVECTOR2 vel) { Vel_ = vel; }

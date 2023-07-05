@@ -1,5 +1,7 @@
 #pragma once
 #include "sprite.h"
+#include "main.h"
+
 
 class Cell
 {
@@ -12,7 +14,7 @@ protected:
 
 public:
 	Cell() = default;
-	~Cell() = default;
+	virtual ~Cell() = default;
 	Cell(D3DXVECTOR2 pos) :Pos_(pos) {}
 	Cell(D3DXVECTOR2 pos, D3DXCOLOR color) :Pos_(pos), Color_(color) {}
 	D3DXVECTOR2 GetPos() { return Pos_; }
@@ -25,12 +27,5 @@ public:
 	void SetTexture(int texNo) { TexNo_ = texNo; }
 
 	virtual void Update() = 0;
-	virtual void Draw() {
-		DrawSpriteColor(TexNo_,
-			Pos_.x, Pos_.y,
-			Size_.x, Size_.y,
-			0.0f, 0.0f,//UV’l‚ÌŽn“_
-			1.0f, 1.0,
-			Color_.r, Color_.g, Color_.b, Color_.a);
-	}
+	virtual void Draw();
 };

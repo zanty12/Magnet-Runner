@@ -1,33 +1,13 @@
 //=============================================================================
 //
-// “–‚½‚è”»’è [collision.cpp]
+// “–‚½‚è”»’è [calculations.cpp]
 // Author : 
 //
 //=============================================================================
 
-#include "collision.h"
-#include "player.h"
-#include "bullet.h"
+#include "calculations.h"
 #include "main.h"
 
-bool CheckHitBB(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh);
-
-bool CheckHitBC(float ax, float ay, float ar, float bx, float by, float br);
-
-bool CheckHitBCSq(float ax, float ay, float ar, float bx, float by, float br);
-
-void InitCollision() {
-
-}
-void UninitCollision() {
-
-}
-void UpdateCollision() {
-	
-}
-void DrawCollision() {
-
-}
 
 bool CheckHitBB(float ax,float ay, float aw,float ah,float bx,float by,float bw,float bh) {
 	float al = ax - aw / 2;

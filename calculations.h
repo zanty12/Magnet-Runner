@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// 入力処理 [collision.h]
+// 入力処理 [calculations.h]
 // Author : 
 //
 //=============================================================================
@@ -9,21 +9,15 @@
 #include "main.h"
 #include "renderer.h"
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-
-
-
-
 
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 
-void InitCollision();
-void UninitCollision();
-void UpdateCollision();
-void DrawCollision();
 
 
+bool CheckHitBB(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh);
+
+bool CheckHitBC(float ax, float ay, float ar, float bx, float by, float br);
+
+bool CheckHitBCSq(float ax, float ay, float ar, float bx, float by, float br);

@@ -1,6 +1,7 @@
 #include "block.h"
 #include "sprite.h"
 #include "texture.h"
+#include "main.h"
 
 Block::Block() :Cell()
 {
@@ -21,4 +22,8 @@ Block::~Block()
 {
 }
 
+void Block::Update()
+{
+	
+}
 
