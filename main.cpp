@@ -14,9 +14,10 @@
 #include "texture.h"
 #include "sprite.h"
 #include "player.h"
-#include "collision.h"
+#include "calculations.h"
 #include "bullet.h"
 #include "mapmngr.h"
+#include "camera.h"
 
 
 
@@ -51,6 +52,7 @@ char	g_DebugStr[2048] = WINDOW_CAPTION;	// デバッグ文字表示用
 #endif
 Player* g_Player = nullptr;
 Mapmngr* g_Mapmngr = nullptr;
+Camera* g_Camera = nullptr;
 
 //=============================================================================
 // メイン関数
@@ -221,11 +223,15 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// 頂点管理の初期化処理
 	InitPolygon();
 	
-	g_Player = new Player();
+	
+	
 	InitBullet();
 
 	g_Mapmngr = new Mapmngr();
 	g_Mapmngr->LoadMap("data/MAP/map.csv");
+	g_Player = new Player();
+	g_Camera = new Camera();
+	
 
 	return S_OK;
 }
@@ -240,6 +246,7 @@ void Uninit(void)
 	g_Player = nullptr;
 	delete g_Mapmngr;
 	g_Mapmngr = nullptr;
+	delete g_Camera;
 
 	// 頂点管理の終了処理
 	UninitPolygon();
@@ -271,9 +278,8 @@ void Update(void)
 	UpdatePolygon();
 
 	g_Player->Update();
+	g_Camera->Update();
 
-
-	UpdateCollision();
 	UpdateBullet();
 }
 
@@ -297,6 +303,7 @@ void Draw(void)
 
 	g_Player->Draw();
 	g_Mapmngr->DrawMap();
+	//g_Camera->Draw();
 
 	DrawBullet();
 
@@ -313,4 +320,14 @@ float frand(void)
 void* GetPlayerInstance()
 {
 	return g_Player;
+}
+
+void* GetMapMngrInstance()
+{
+	return g_Mapmngr;
+}
+
+void* GetCameraInstance()
+{
+	return g_Camera;
 }

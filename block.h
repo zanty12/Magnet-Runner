@@ -11,7 +11,7 @@ public:
 	Block(D3DXVECTOR2 pos);
 	Block(D3DXVECTOR2 pos, D3DXCOLOR color);
 	~Block();
-	void Update(){}
+	void Update()override;
 
 };
 

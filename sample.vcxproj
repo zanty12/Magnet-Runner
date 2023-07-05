@@ -130,8 +130,9 @@
   <ItemGroup>
     <ClCompile Include="block.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="cell.cpp" />
-    <ClCompile Include="collision.cpp" />
+    <ClCompile Include="calculations.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,8 +149,9 @@
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="cell.h" />
-    <ClInclude Include="collision.h" />
+    <ClInclude Include="calculations.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />

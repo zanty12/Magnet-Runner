@@ -10,29 +10,57 @@
   <Class Name="Block" Collapsed="true">
     <Position X="8.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <HashCode>AAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>block.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Plus" Collapsed="true">
-    <Position X="11.25" Y="4.5" Width="1.5" />
+    <Position X="9.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>plus.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Player" Collapsed="true">
-    <Position X="4.5" Y="3.25" Width="1.5" />
+    <Position X="6.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAEASAAgAAgAAABAAgAAAAAAgAAAAAAQAAABI=</HashCode>
       <FileName>player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cell" Collapsed="true">
-    <Position X="12.25" Y="2" Width="1.5" />
+    <Position X="8.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIQAAAACAAAAAgCAAABIEAgAQCAAQACAAAgAgAAAgAA=</HashCode>
       <FileName>cell.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQGAAAAAAAAAgAAQAAAUAAAQgAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mapmngr" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABiAgACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>mapmngr.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAgAAAAAABAAAgAAAAAAAEBAACQAAAAgAAAIAEAAAAQ=</HashCode>
+      <FileName>map.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Minus" Collapsed="true">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAABAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>minus.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Yu Gothic UI" Size="9" />

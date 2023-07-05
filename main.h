@@ -52,3 +52,5 @@
 //*****************************************************************************
 float frand(void); 
 void* GetPlayerInstance();
+void* GetMapMngrInstance();
+void* GetCameraInstance();
