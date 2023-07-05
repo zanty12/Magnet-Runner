@@ -22,7 +22,7 @@ public:
 	~Map();
 	void PutCell(int x, int y, Cell* cell) { Map_[y * Width_ + x] = cell; }
 	void PutCell(int x, int y, int type);
-	Cell* GetCell(int x, int y) {return Map_[y * Width_ + x]; }
+	Cell* GetCell(int x, int y);
 	void Draw();
 	int GetWidth() { return Width_; }
 	int GetHeight() { return Height_; }
@@ -32,7 +32,7 @@ public:
 	Cell* GetCell(D3DXVECTOR2 pos) {
 		int x = (int)(pos.x / 96.0f);
 		int y = (int)(pos.y / 96.0f);
-		return Map_[y * Width_ + x];
+		return GetCell(x,y);
 	}
 	
 
