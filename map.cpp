@@ -34,6 +34,12 @@ Map::~Map()
 	
 }
 
+Cell* Map::GetCell(int x, int y) {
+	if(x < 0 || x >= Width_ || y < 0 || y >= Height_)
+		return nullptr;
+	return Map_[y * Width_ + x];
+}
+
 void Map::PutCell(int x, int y, int type)
 {
 	switch (type) {

@@ -41,7 +41,7 @@ Map* g_Map = nullptr;
 //=============================================================================
 // 初期化処理
 //=============================================================================
-Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
+Player::Player() : GameObject(D3DXVECTOR2(960.0f, 936.0f)) {
 	TexNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	Size_ = D3DXVECTOR2(96.0f, 96.0f);
 	mapmngr = (Mapmngr*)GetMapMngrInstance();
@@ -80,22 +80,20 @@ void Player::Update(void)
 {
 	static bool isAnim = false;
 	Vel_.x = 0.0f;
-	Vel_.y = 0.0f;
+	if (Vel_.y < 5.0f) {
+		Vel_.y += 5.0f;
+	}
+	if(Vel_.y >= 5.0f)
+		Vel_.y = 5.0f;
 	//キーボード
-	if (GetKeyboardPress(DIK_W))
+	if (GetKeyboardPress(DIK_SPACE))
 	{
-		Vel_.y = -5.0f;
+		Vel_.y = -15.0f;
 		isAnim = true;
 		V_ = 0.75f;
 
 	}
-	if (GetKeyboardPress(DIK_S))
-	{
-		Vel_.y = 5.0f;
-		isAnim = true;
-		V_ = 0.0f;
-
-	}
+	
 	if (GetKeyboardPress(DIK_A))
 	{
 		Vel_.x = -5.0f;
@@ -121,39 +119,21 @@ void Player::Update(void)
 
 	//collision with cells around
 
-	//center
-	Cell* cell = g_Map->GetCell(Pos_);
+	//bottom
+	int xIndex = std::floor(Pos_.x / Size_.x);
+	int yIndex = std::floor(Pos_.y / Size_.y);
+
+	Cell *cell = g_Map->GetCell(xIndex, yIndex + 1);
 	if (cell != nullptr)
 	{
 		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
-			Pos_.x = cell->GetPos().x - cell->GetSize().x / 2 - Size_.x / 2;
 			Pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - Size_.y / 2;
-		}
-
-	}
-	//left
-	cell = g_Map->GetCell(D3DXVECTOR2(Pos_.x - Size_.x / 2, Pos_.y));
-	if (cell != nullptr)
-	{
-		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
-		{
-			Pos_.x = cell->GetPos().x + cell->GetSize().x / 2 + Size_.x / 2;
-		}
-	}
-
-	//right
-	cell = g_Map->GetCell(D3DXVECTOR2(Pos_.x + Size_.x, Pos_.y));
-	if (cell != nullptr)
-	{
-		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
-		{
-			Pos_.x = cell->GetPos().x - cell->GetSize().x / 2 - Size_.x / 2;
 		}
 	}
 
 	//top
-	cell = g_Map->GetCell(D3DXVECTOR2(Pos_.x, Pos_.y - Size_.y));
+	cell = g_Map->GetCell(xIndex, yIndex - 1);
 	if (cell != nullptr)
 	{
 		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
@@ -163,34 +143,53 @@ void Player::Update(void)
 
 	}
 
-	//bottom
-	cell = g_Map->GetCell(D3DXVECTOR2(Pos_.x, Pos_.y + Size_.y));
+	xIndex = std::ceil(Pos_.x / Size_.x);
+	yIndex = std::ceil(Pos_.y / Size_.y);
+	
+	//left
+	cell = g_Map->GetCell(xIndex - 1, yIndex);
+	if (cell != nullptr)
+	{
+		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
+		{
+			Pos_.x = cell->GetPos().x + cell->GetSize().x / 2 + Size_.x / 2;
+		}
+	}
+
+
+	xIndex = std::floor(Pos_.x / Size_.x);
+	yIndex = std::floor(Pos_.y / Size_.y);
+
+	//right
+	cell = g_Map->GetCell(xIndex + 1, yIndex);
+	if (cell != nullptr)
+	{
+		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
+		{
+			Pos_.x = cell->GetPos().x - cell->GetSize().x / 2 - Size_.x / 2;
+		}
+	}
+
+	
+
+	
+	//center
+	/*cell = g_Map->GetCell(xIndex, yIndex);
 	if (cell != nullptr)
 	{
 		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			Pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - Size_.y / 2;
 		}
-	}
 
+	}*/
 
 	//border
 	if (Pos_.x < Size_.x / 2)
 		Pos_.x = Size_.x / 2;
 	if (Pos_.y < 0.0f - Size_.y / 2)
 		Pos_.y = 0.0f - Size_.y / 2;
-	//bullets
-
-	static int round = 0;
-	if (GetKeyboardPress(DIK_SPACE))
-	{
-		if (round >= 60 / RPS)
-		{
-			round = 0;
-			CreateBullet(Pos_, D3DXVECTOR2(4.0f * cos(Rot_), 4.0f * sin(Rot_)), Rot_ + 0.5f * D3DX_PI);
-		}
-	}
-	round++;
+	
 
 	//ゲームパッド
 	if (IsButtonPressed(0, BUTTON_A) || GetKeyboardPress(DIK_TAB))
