@@ -228,7 +228,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitBullet();
 
 	g_Mapmngr = new Mapmngr();
-	g_Mapmngr->LoadMap("data/MAP/map.csv");
+	g_Mapmngr->LoadMap("data/MAP/map2.csv");
 	g_Player = new Player();
 	g_Camera = new Camera();
 	

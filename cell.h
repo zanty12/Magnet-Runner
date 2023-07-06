@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "main.h"
 
+#define CELLSIZE 96.0f
 
 class Cell
 {
