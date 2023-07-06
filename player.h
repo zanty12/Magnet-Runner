@@ -23,6 +23,9 @@ private:
 	float			Rot_ = 0;
 	int AnimePattern_ = 0;
 	int AnimeSkipFrame_ = 0;
+	bool IsGravity_ = true;
+	bool Jumped_ = false;
+	bool Grounded_ = false;
 public:
 	Player();
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel);

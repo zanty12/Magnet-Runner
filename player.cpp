@@ -14,6 +14,7 @@
 #include "calculations.h"
 #include "mapmngr.h"
 #include "main.h"
+#include "camera.h" 
 #include "map.h"
 #include <cmath>
 
@@ -29,8 +30,10 @@
 #define ANIME_PTN (ANIME_PTN_YOKO * ANIME_PTN_TATE)
 #define ANIME_PTN_U (1.0f / ANIME_PTN_YOKO)
 #define ANIME_PTN_V (1.0f / ANIME_PTN_TATE)
-#define RPS 3 //1秒間何発撃てる
 
+#define GRAVITY_ACCEL 4.0f
+#define MAX_GRAVITY 20.0f
+#define JUMP_FORCE -30.0f
 
 //*****************************************************************************
 // グローバル変数
@@ -41,7 +44,7 @@ Map* g_Map = nullptr;
 //=============================================================================
 // 初期化処理
 //=============================================================================
-Player::Player() : GameObject(D3DXVECTOR2(960.0f, 936.0f)) {
+Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
 	TexNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	Size_ = D3DXVECTOR2(96.0f, 96.0f);
 	mapmngr = (Mapmngr*)GetMapMngrInstance();
@@ -80,18 +83,28 @@ void Player::Update(void)
 {
 	static bool isAnim = false;
 	Vel_.x = 0.0f;
-	if (Vel_.y < 5.0f) {
-		Vel_.y += 5.0f;
+	if (IsGravity_) {
+		if (Vel_.y < MAX_GRAVITY) {
+			if(Jumped_)
+				Vel_.y += GRAVITY_ACCEL / 2;
+			else
+				Vel_.y += GRAVITY_ACCEL;
+		}
+		if (Vel_.y >= MAX_GRAVITY)
+			Vel_.y = MAX_GRAVITY;
 	}
-	if(Vel_.y >= 5.0f)
-		Vel_.y = 5.0f;
+	
 	//キーボード
 	if (GetKeyboardPress(DIK_SPACE))
 	{
-		Vel_.y = -15.0f;
-		isAnim = true;
-		V_ = 0.75f;
-
+		if (!Jumped_ && Grounded_) {
+			Vel_.y = JUMP_FORCE;
+			Jumped_ = true;
+			Grounded_ = false;
+		}
+	}
+	else if (!GetKeyboardPress(DIK_SPACE) && Grounded_) {
+		Jumped_ = false;
 	}
 	
 	if (GetKeyboardPress(DIK_A))
@@ -118,20 +131,24 @@ void Player::Update(void)
 	Pos_.y += Vel_.y;
 
 	//collision with cells around
-
-	//bottom
 	int xIndex = std::floor(Pos_.x / Size_.x);
 	int yIndex = std::floor(Pos_.y / Size_.y);
 
-	Cell *cell = g_Map->GetCell(xIndex, yIndex + 1);
+	//bottom
+	Cell* cell = g_Map->GetCell(xIndex, yIndex + 1);
 	if (cell != nullptr)
 	{
 		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			Pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - Size_.y / 2;
+			Grounded_ = true;
 		}
 	}
-
+	else
+	{
+		Grounded_ = false;
+	}
+	
 	//top
 	cell = g_Map->GetCell(xIndex, yIndex - 1);
 	if (cell != nullptr)
@@ -143,9 +160,6 @@ void Player::Update(void)
 
 	}
 
-	xIndex = std::ceil(Pos_.x / Size_.x);
-	yIndex = std::ceil(Pos_.y / Size_.y);
-	
 	//left
 	cell = g_Map->GetCell(xIndex - 1, yIndex);
 	if (cell != nullptr)
@@ -155,10 +169,6 @@ void Player::Update(void)
 			Pos_.x = cell->GetPos().x + cell->GetSize().x / 2 + Size_.x / 2;
 		}
 	}
-
-
-	xIndex = std::floor(Pos_.x / Size_.x);
-	yIndex = std::floor(Pos_.y / Size_.y);
 
 	//right
 	cell = g_Map->GetCell(xIndex + 1, yIndex);
@@ -170,26 +180,25 @@ void Player::Update(void)
 		}
 	}
 
-	
-
-	
 	//center
-	/*cell = g_Map->GetCell(xIndex, yIndex);
+	cell = g_Map->GetCell(xIndex, yIndex);
 	if (cell != nullptr)
 	{
 		if (CheckHitBB(Pos_.x, Pos_.y, Size_.x, Size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			Pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - Size_.y / 2;
 		}
-
-	}*/
+	}
 
 	//border
 	if (Pos_.x < Size_.x / 2)
 		Pos_.x = Size_.x / 2;
+	else if(Pos_.x > g_Map->GetWidth() * 96.0f - CELLSIZE / 2)
+		Pos_.x = g_Map->GetWidth() * 96.0f - CELLSIZE / 2;
 	if (Pos_.y < 0.0f - Size_.y / 2)
 		Pos_.y = 0.0f - Size_.y / 2;
-	
+	else if(Pos_.y > g_Map->GetHeight() * 96.0f)
+		Pos_.y = g_Map->GetHeight() * 96.0f;
 
 	//ゲームパッド
 	if (IsButtonPressed(0, BUTTON_A) || GetKeyboardPress(DIK_TAB))
@@ -218,7 +227,6 @@ void Player::Update(void)
 	}
 	isAnim = false;
 	U_ = (AnimePattern_ % ANIME_PTN_YOKO) * ANIME_PTN_U;
-	//	V_ = (AnimePattern_ / ANIME_PTN_YOKO) * ANIME_PTN_V;
 }
 
 //=============================================================================
@@ -227,9 +235,15 @@ void Player::Update(void)
 void Player::Draw(void)
 {
 	//プレイヤーの描画
-
+	Camera* camera = (Camera*)GetCameraInstance();
+	float DiffX = camera->GetPos().x - SCREEN_WIDTH / 2;
+	float DiffY = camera->GetPos().y - SCREEN_HEIGHT / 2;
+	if (DiffX < 0)
+		DiffX = 0;
+	if (DiffY < 0)
+		DiffY = 0;
 	DrawSpriteColor(TexNo_,
-		Pos_.x, Pos_.y,
+		Pos_.x - DiffX, Pos_.y - DiffY,
 		96.0f, 96.0f,
 		U_, V_,//UV値の始点
 		ANIME_PTN_U, 0.25f,
