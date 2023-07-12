@@ -6,8 +6,7 @@ class Plus :
 public:
 	Plus();
 	Plus(D3DXVECTOR2 pos);
-	Plus(D3DXVECTOR2 pos, D3DXCOLOR color);
-	~Plus();
+	~Plus() override = default;
 	void Update();
 
 };

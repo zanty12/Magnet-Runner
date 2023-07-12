@@ -51,6 +51,4 @@
 // プロトタイプ宣言
 //*****************************************************************************
 float frand(void); 
-void* GetPlayerInstance();
-void* GetMapMngrInstance();
-void* GetCameraInstance();
+void* GetSceneMngrInstance();

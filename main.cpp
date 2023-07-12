@@ -13,12 +13,9 @@
 #include "polygon.h"
 #include "texture.h"
 #include "sprite.h"
-#include "player.h"
 #include "calculations.h"
-#include "bullet.h"
-#include "mapmngr.h"
-#include "camera.h"
-
+#include "scenemngr.h"
+#include "sound.h"
 
 
 //*****************************************************************************
@@ -50,9 +47,8 @@ int		g_CountFPS;							// FPSカウンタ
 char	g_DebugStr[2048] = WINDOW_CAPTION;	// デバッグ文字表示用
 
 #endif
-Player* g_Player = nullptr;
-Mapmngr* g_Mapmngr = nullptr;
-Camera* g_Camera = nullptr;
+Scenemngr* g_Scenemngr = nullptr;
+
 
 //=============================================================================
 // メイン関数
@@ -217,21 +213,16 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	// 入力処理の初期化
 	InitInput(hInstance, hWnd);
 
+	InitSound(hWnd);
+
 	// スプライトの初期化
 	InitSprite();
 
 	// 頂点管理の初期化処理
 	InitPolygon();
 	
-	
-	
-	InitBullet();
-
-	g_Mapmngr = new Mapmngr();
-	g_Mapmngr->LoadMap("data/MAP/map2.csv");
-	g_Player = new Player();
-	g_Camera = new Camera();
-	
+	g_Scenemngr = new Scenemngr();
+	g_Scenemngr->Init();
 
 	return S_OK;
 }
@@ -242,14 +233,11 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //=============================================================================
 void Uninit(void)
 {
-	delete g_Player;
-	g_Player = nullptr;
-	delete g_Mapmngr;
-	g_Mapmngr = nullptr;
-	delete g_Camera;
+	delete g_Scenemngr;
+	g_Scenemngr = nullptr;
 
 	// 頂点管理の終了処理
-	UninitPolygon();
+	
 
 	// スプライトの終了処理
 	UninitSprite();
@@ -257,13 +245,14 @@ void Uninit(void)
 	// テクスチャの全解放
 	UninitTexture();
 
+
+	UninitSound();
 	// 入力処理の終了処理
-	UninitInput();
+	UninitInput();	
 
 	// レンダリングの終了処理
 	UninitRenderer();
 	
-	UninitBullet();
 }
 
 //=============================================================================
@@ -275,12 +264,9 @@ void Update(void)
 	UpdateInput();
 
 	// 頂点管理の更新処理
-	UpdatePolygon();
+	g_Scenemngr->Update();
 
-	g_Player->Update();
-	g_Camera->Update();
-
-	UpdateBullet();
+	
 }
 
 //=============================================================================
@@ -299,13 +285,7 @@ void Draw(void)
 
 
 	// 頂点管理の描画処理
-	DrawPolygon();
-
-	g_Player->Draw();
-	g_Mapmngr->DrawMap();
-	//g_Camera->Draw();
-
-	DrawBullet();
+	g_Scenemngr->Draw();
 
 	// バックバッファ、フロントバッファ入れ替え
 	Present();
@@ -317,17 +297,7 @@ float frand(void)
 	return (float)rand() / RAND_MAX;
 }
 
-void* GetPlayerInstance()
+void* GetSceneMngrInstance()
 {
-	return g_Player;
-}
-
-void* GetMapMngrInstance()
-{
-	return g_Mapmngr;
-}
-
-void* GetCameraInstance()
-{
-	return g_Camera;
+	return g_Scenemngr;
 }

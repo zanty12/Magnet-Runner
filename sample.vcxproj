@@ -133,6 +133,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="calculations.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +144,9 @@
     <ClCompile Include="plus.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="scenemngr.cpp" />
+    <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
@@ -152,6 +156,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="cell.h" />
     <ClInclude Include="calculations.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
@@ -162,6 +167,9 @@
     <ClInclude Include="plus.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="scenemngr.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>

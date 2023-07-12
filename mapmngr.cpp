@@ -22,8 +22,8 @@ void Mapmngr::LoadMap(const char* fileName)
 	int width = stoi(item);
 	std::getline(ss,item,',');
 	int height = stoi(item);
-	Map_ = new Map(width,height);
-	MapData_ = new int[width * height];
+	map_ = new Map(width,height);
+	mapData_ = new int[width * height];
 	int y = 0;
 	while(std::getline(file,line))
 	{
@@ -32,8 +32,8 @@ void Mapmngr::LoadMap(const char* fileName)
 		int x = 0;
 		while(std::getline(ss,item,','))
 		{
-			MapData_[y * width + x] = stoi(item);
-			Map_->PutCell(x,y,stoi(item));
+			mapData_[y * width + x] = stoi(item);
+			map_->PutCell(x,y,stoi(item));
 			x++;
 		}
 		y++;

@@ -3,23 +3,24 @@
 #include "texture.h"
 #include "main.h"
 
-Block::Block() :Cell()
+Block::Block() :Cell(CELL_BLOCK_NORMAL)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::Block(D3DXVECTOR2 pos) : Cell(pos)
+Block::Block(CELL_TYPE type) :Cell(type)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::Block(D3DXVECTOR2 pos, D3DXCOLOR color)
-	:Cell(pos,color){
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
+Block::Block(D3DXVECTOR2 pos) : Cell(pos,CELL_BLOCK_NORMAL)
+{
+	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::~Block()
+Block::Block(D3DXVECTOR2 pos,CELL_TYPE type) :Cell(pos,type)
 {
+	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
 void Block::Update()

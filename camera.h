@@ -11,18 +11,21 @@
 class Camera
 {
 private:
-	Player* Player_;
-	Mapmngr* Mapmngr_;
-	D3DXVECTOR2 Pos_;
-	D3DXVECTOR2 ScreenSize_ = D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT);
-	int TexNo_;
+	Player* player_ = nullptr;
+	Mapmngr* mapmngr_ = nullptr;
+	D3DXVECTOR2 pos_;
+	D3DXVECTOR2 screenSize_ = D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT);
+	int texNo_;
+	int bgmNo_;
 public:
 	Camera();
 	~Camera() = default;
 	void Update();
 	void Draw();
 	bool InCamera(D3DXVECTOR2 pos);
-	D3DXVECTOR2 GetPos() { return Pos_; };
+	D3DXVECTOR2 GetPos() { return pos_; };
+	void SetPlayer(Player* player) { player_ = player; }
+	void SetMapmngr(Mapmngr* mapmngr) { mapmngr_ = mapmngr; }
 
 };
 
