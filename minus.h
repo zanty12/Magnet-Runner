@@ -6,8 +6,7 @@ class Minus :
     public:
 	Minus();
 	Minus(D3DXVECTOR2 pos);
-	Minus(D3DXVECTOR2 pos, D3DXCOLOR color);
-	~Minus();
+	~Minus() override = default;
 	void Update();
 };
 

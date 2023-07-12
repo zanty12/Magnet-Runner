@@ -1,27 +1,17 @@
 #include "plus.h"
-#include "sprite.h"
 #include "texture.h"
 
-Plus::Plus() : Block()
+Plus::Plus() : Block(CELL_BLOCK_PLUS)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/plus.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/plus.png");
+	pole_ = POLE_PLUS;
 	
 }
 
-Plus::Plus(D3DXVECTOR2 pos) : Block(pos)
+Plus::Plus(D3DXVECTOR2 pos) : Block(pos, CELL_BLOCK_PLUS)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/plus.png");
-	
-}
-
-Plus::Plus(D3DXVECTOR2 pos, D3DXCOLOR color) : Block(pos, color)
-{
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/plus.png");
-	
-}
-
-Plus::~Plus()
-{
+	texNo_ = LoadTexture((char*)"data/TEXTURE/plus.png");
+	pole_ = POLE_PLUS;
 }
 
 void Plus::Update()

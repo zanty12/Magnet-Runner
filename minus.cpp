@@ -1,24 +1,16 @@
 #include "minus.h"
 #include "texture.h"
 
-Minus::Minus() :Block()
+Minus::Minus() :Block(CELL_BLOCK_MINUS)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/minus.png");
-
+	texNo_ = LoadTexture((char*)"data/TEXTURE/minus.png");
+	pole_ = POLE_MINUS;
 }
 
-Minus::Minus(D3DXVECTOR2 pos) : Block(pos)
+Minus::Minus(D3DXVECTOR2 pos) : Block(pos, CELL_BLOCK_MINUS)
 {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/minus.png");
-}
-
-Minus::Minus(D3DXVECTOR2 pos, D3DXCOLOR color)
-	:Block(pos, color) {
-	TexNo_ = LoadTexture((char*)"data/TEXTURE/minus.png");
-}
-
-Minus::~Minus()
-{
+	texNo_ = LoadTexture((char*)"data/TEXTURE/minus.png");
+	pole_ = POLE_MINUS;
 }
 
 void Minus::Update()

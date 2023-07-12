@@ -3,14 +3,14 @@
 class Mapmngr
 {
 private:
-	int* MapData_;
-	Map* Map_;
+	int* mapData_;
+	Map* map_;
 public:
 	Mapmngr() = default;
-	~Mapmngr() { delete Map_; delete[] MapData_; };
+	~Mapmngr() { delete map_; delete[] mapData_; };
 	void LoadMap(const char* fileName);
-	void DrawMap(){ Map_->Draw(); }
-	Map* GetMap() {if (Map_ != nullptr) return Map_; }
+	void DrawMap(){ map_->Draw(); }
+	Map* GetMap() {if (map_ != nullptr) return map_; }
 
 };
 
