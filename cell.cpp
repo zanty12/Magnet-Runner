@@ -3,7 +3,6 @@
 #include "scenemngr.h"
 #include "game.h"
 
-
 Camera* camera = nullptr;
 
 Cell::Cell() {
@@ -35,5 +34,4 @@ void Cell::Draw()
 			1.0f, 1.0,
 			color_.r, color_.g, color_.b, color_.a);
 	}
-
 }

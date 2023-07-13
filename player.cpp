@@ -14,11 +14,10 @@
 #include "bullet.h"
 #include "calculations.h"
 #include "mapmngr.h"
-#include "camera.h" 
+#include "camera.h"
 #include "map.h"
 #include "scenemngr.h"
 #include <cmath>
-
 
 //*****************************************************************************
 // マクロ定義
@@ -47,10 +46,6 @@
 // グローバル変数
 //*****************************************************************************
 
-
-
-
-
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
@@ -61,7 +56,6 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
 	vel = vel;
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
-
 }
 
 Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, color)
@@ -70,7 +64,6 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 	rot = rot;
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
-
 }
 
 void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance) {
@@ -80,8 +73,6 @@ void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance) {
 }
 
 Player::~Player() = default;
-
-
 
 void Player::Update(void)
 {
@@ -124,27 +115,23 @@ void Player::Update(void)
 		vel_.x = -8.0f;
 		isAnim = true;
 		v_ = 0.25f;
-
 	}
 	if (GetKeyboardPress(DIK_D))
 	{
 		vel_.x = 8.0f;
 		isAnim = true;
 		v_ = 0.5f;
-
 	}
 
 	if (GetKeyboardPress(DIK_Q))
 	{
 		pole_ = POLE_MINUS;
 		color_ = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-
 	}
 	if (GetKeyboardPress(DIK_E))
 	{
 		pole_ = POLE_PLUS;
 		color_ = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-
 	}
 
 	if (GetKeyboardPress(DIK_R))
@@ -221,7 +208,6 @@ void Player::Update(void)
 	//center
 	interactCell_[DIRECTION_CENTER] = map_->GetCell(xIndex, yIndex);
 
-
 	for (int i = 0; i < DIRECTION_MAX; i++) {
 		CellInteract(interactCell_[i], (DIRECTION)i);
 	}
@@ -259,7 +245,6 @@ void Player::Update(void)
 	}
 	else {
 		animePattern_ = 1;
-
 	}
 	isAnim = false;
 	u_ = (animePattern_ % ANIME_PTN_YOKO) * ANIME_PTN_U;
@@ -356,7 +341,6 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 	default:
 		break;
 	}
-
 }
 
 //プラスブロック処理

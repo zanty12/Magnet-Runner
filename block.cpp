@@ -13,18 +13,16 @@ Block::Block(CELL_TYPE type) :Cell(type)
 	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::Block(D3DXVECTOR2 pos) : Cell(pos,CELL_BLOCK_NORMAL)
+Block::Block(D3DXVECTOR2 pos) : Cell(pos, CELL_BLOCK_NORMAL)
 {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
-Block::Block(D3DXVECTOR2 pos,CELL_TYPE type) :Cell(pos,type)
+Block::Block(D3DXVECTOR2 pos, CELL_TYPE type) :Cell(pos, type)
 {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/block.png");
 }
 
 void Block::Update()
 {
-	
 }
-

@@ -38,8 +38,6 @@ void Scenemngr::Draw() {
 	scene_->Draw();
 }
 
-
-
 void Scenemngr::SetScene(SCENENO sceneNo)
 {
 	if (sceneNo != sceneNo_) {

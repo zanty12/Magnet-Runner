@@ -1,15 +1,14 @@
 //=============================================================================
 //
 // “–‚½‚è”»’è [calculations.cpp]
-// Author : 
+// Author :
 //
 //=============================================================================
 
 #include "calculations.h"
 #include "main.h"
 
-
-bool CheckHitBB(float ax,float ay, float aw,float ah,float bx,float by,float bw,float bh) {
+bool CheckHitBB(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh) {
 	float al = ax - aw / 2;
 	float ar = ax + aw / 2;
 	float at = ay - ah / 2;
@@ -31,23 +30,21 @@ bool CheckHitBB(float ax,float ay, float aw,float ah,float bx,float by,float bw,
 	return false;
 }
 
-bool CheckHitBC(float ax, float ay,float ar,float bx,float by,float br) {
-
-	D3DXVECTOR2 aPos = D3DXVECTOR2(ax,ay);
+bool CheckHitBC(float ax, float ay, float ar, float bx, float by, float br) {
+	D3DXVECTOR2 aPos = D3DXVECTOR2(ax, ay);
 	D3DXVECTOR2 bPos = D3DXVECTOR2(bx, by);
 
-	D3DXVECTOR2 dist = bPos - aPos;	
+	D3DXVECTOR2 dist = bPos - aPos;
 	float length = D3DXVec2Length(&dist);
 	float r = ar + br;
 	if (length < r) {
 		return true;
 	}
-	
+
 	return false;
 }
 
 bool CheckHitBCSq(float ax, float ay, float ar, float bx, float by, float br) {
-
 	D3DXVECTOR2 aPos = D3DXVECTOR2(ax, ay);
 	D3DXVECTOR2 bPos = D3DXVECTOR2(bx, by);
 

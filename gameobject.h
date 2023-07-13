@@ -13,7 +13,6 @@ typedef enum {
 
 class GameObject
 {
-
 protected:
 	D3DXVECTOR2		pos_ = D3DXVECTOR2(0.0f, 0.0f);	//位置ベクトル
 	D3DXVECTOR2		size_ = D3DXVECTOR2(0.0f, 0.0f);	//サイズ
@@ -28,7 +27,7 @@ public:
 	GameObject() = default;
 	GameObject(D3DXVECTOR2 pos) :pos_(pos) {}
 	GameObject(D3DXVECTOR2 pos, D3DXVECTOR2 size) :pos_(pos), size_(size) {}
-	GameObject(D3DXVECTOR2 pos,D3DXCOLOR color) :pos_(pos), color_(color) {}
+	GameObject(D3DXVECTOR2 pos, D3DXCOLOR color) :pos_(pos), color_(color) {}
 	GameObject(D3DXVECTOR2 pos, D3DXVECTOR2 size, D3DXCOLOR color) :pos_(pos), size_(size), color_(color) {}
 	virtual ~GameObject() = default;
 	D3DXVECTOR2 GetPos() { return pos_; }
@@ -55,6 +54,4 @@ public:
 			1.0f, 1.0,
 			color_.r, color_.g, color_.b, color_.a);
 	}
-
 };
-

@@ -24,6 +24,4 @@ public:
 	void Draw();
 	bool InCamera(D3DXVECTOR2 pos);
 	D3DXVECTOR2 GetPos() { return pos_; };
-
-
 };

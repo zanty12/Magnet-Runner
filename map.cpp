@@ -3,7 +3,6 @@
 #include "plus.h"
 #include "minus.h"
 
-
 Map::Map()
 {
 	map_ = new Cell * [width_ * height_];
@@ -22,20 +21,17 @@ Map::Map(int width, int height) :width_(width), height_(height)
 			map_[i * width_ + i] = nullptr;
 		}
 	}
-
 }
-
 
 Map::~Map()
 {
-	for(int i = 0; i < width_*height_; i++)
-		if(map_[i] != nullptr)
+	for (int i = 0; i < width_ * height_; i++)
+		if (map_[i] != nullptr)
 			delete map_[i];
-	
 }
 
 Cell* Map::GetCell(int x, int y) {
-	if(x < 0 || x >= width_ || y < 0 || y >= height_)
+	if (x < 0 || x >= width_ || y < 0 || y >= height_)
 		return nullptr;
 	return map_[y * width_ + x];
 }
@@ -57,7 +53,6 @@ void Map::PutCell(int x, int y, int type)
 		break;
 	}
 }
-	
 
 void Map::Draw()
 {
@@ -68,5 +63,4 @@ void Map::Draw()
 			}
 		}
 	}
-
 }

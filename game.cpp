@@ -47,7 +47,6 @@ void Game::Update()
 
 void Game::Draw()
 {
-
 	DrawPolygon();
 
 	player_->Draw();

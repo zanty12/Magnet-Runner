@@ -9,8 +9,6 @@ public:
 	Mapmngr() = default;
 	~Mapmngr() { delete map_; delete[] mapData_; };
 	void LoadMap(const char* fileName);
-	void DrawMap(){ map_->Draw(); }
-	Map* GetMap() {if (map_ != nullptr) return map_; }
-
+	void DrawMap() { map_->Draw(); }
+	Map* GetMap() { if (map_ != nullptr) return map_; }
 };
-

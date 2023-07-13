@@ -8,6 +8,4 @@ public:
 	Plus(D3DXVECTOR2 pos);
 	~Plus() override = default;
 	void Update();
-
 };
-
