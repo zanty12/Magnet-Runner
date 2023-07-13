@@ -10,6 +10,11 @@
 
 #include "main.h"
 
+#pragma comment(lib,"d2d1.lib")//---Åöí«â¡---
+#pragma comment(lib,"dwrite.lib")//---Åöí«â¡---
+#include <d2d1.h>//---Åöí«â¡---
+#include <dwrite.h>//---Åöí«â¡---
+
 
 //*********************************************************
 // É}ÉNÉçíËã`
@@ -89,6 +94,10 @@ void Present(void);
 
 ID3D11Device *GetDevice( void );
 ID3D11DeviceContext *GetDeviceContext( void );
+ID2D1RenderTarget* GetDWRenderTarget(void);
+IDWriteFactory* GetDWFactory(void);
+ID2D1SolidColorBrush* GetDWSolidColorBrush(void);
+IDWriteTextFormat* GetDWTextFormat(void);
 
 void SetDepthEnable( bool Enable );
 void SetBlendState(BLEND_MODE bm);

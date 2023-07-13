@@ -12,16 +12,16 @@ private:
 	Mapmngr* mapmngr_ = nullptr;
 	Camera* camera_ = nullptr;
 
-	public:
-		Game() = default;
-		~Game();
-		void Init();
-		void Init(const char* fileName);
-		void Update();
-		void Draw();
-		Player* GetPlayer() { return player_; }
-		Mapmngr* GetMapmngr() { return mapmngr_; }
-		Camera* GetCamera() { return camera_; }
-		void* GetInstance() { return (void*)this; }
-};
-
+public:
+	Game() = default;
+	~Game();
+	Game(Scenemngr* scenemngr) :Scene(scenemngr) {}
+	void Init() override;
+	void Init(const char* fileName);
+	void Update()override;
+	void Draw()override;
+	Player* GetPlayer() { return player_; }
+	Mapmngr* GetMapmngr() { return mapmngr_; }
+	Camera* GetCamera() { return camera_; }
+}
+;

@@ -3,7 +3,7 @@
   <Class Name="GameObject" Collapsed="true">
     <Position X="6.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AJQAAAACAAAAAgCgAUgIEAgAQCAAQACAABoAgAIAAAA=</HashCode>
+      <HashCode>AJQAAAACQAAAAgCggQAIAAhIACAAAACAAFoAEAYAAAA=</HashCode>
       <FileName>gameobject.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,21 +24,21 @@
   <Class Name="Player" Collapsed="true">
     <Position X="6.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAEASAAgAAgAAABAAgAAAAAAgAAAAAAQAAABI=</HashCode>
+      <HashCode>AAQAAAoAAADAAgAAAACAAAAgAIQBAIgAgEAyAQAEABI=</HashCode>
       <FileName>player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Cell" Collapsed="true">
     <Position X="8.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQAAAACAAAAAgCAAABIEAgAQCAAQACAAAgAgAAAgAA=</HashCode>
+      <HashCode>AIQAAAACQCAAAgCAgABIAAhAACAAAAGQAAgAEAQAgAA=</HashCode>
       <FileName>cell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Camera" Collapsed="true">
     <Position X="12" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQGAAAAAAAAAgAAQAAAUAAAQgAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAQCAAAAQAAAAhAAQAACQAgAAAAAAAQAAAAAEAEEAgA=</HashCode>
       <FileName>camera.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,7 +52,7 @@
   <Class Name="Map" Collapsed="true">
     <Position X="12" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAgAAAAAABAAAgAAAAAAAEBAACQAAAAgAAAIAEAAAAQ=</HashCode>
+      <HashCode>QAAAAAAAABAAAgAgQAAAAABAACQAAAAAAAAIAEAIAAQ=</HashCode>
       <FileName>map.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -61,6 +61,20 @@
     <TypeIdentifier>
       <HashCode>AAQAAAAAAABAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>minus.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAgAAAAAAARAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game" Collapsed="true">
+    <Position X="15" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAUAIAAABAiAAAAAAAACACEAAgA=</HashCode>
+      <FileName>game.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Yu Gothic UI" Size="9" />

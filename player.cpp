@@ -10,14 +10,12 @@
 #include "input.h"
 #include "sprite.h"
 #include "texture.h"
+#include "main.h"
 #include "bullet.h"
 #include "calculations.h"
 #include "mapmngr.h"
-#include "main.h"
-#include "game.h"
 #include "camera.h" 
 #include "map.h"
-#include "mapmngr.h"
 #include "scenemngr.h"
 #include <cmath>
 
@@ -49,10 +47,7 @@
 // ƒOƒ[ƒoƒ‹•Ï”
 //*****************************************************************************
 
-Game* game_ = nullptr;
-Mapmngr* mapmngr_ = nullptr;
-Map* map_ = nullptr;
-Camera* camera_ = nullptr;
+
 
 
 
@@ -78,11 +73,10 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 	
 }
 
-void Player::Init() {
-	game_ = (Game*)(((Scenemngr*)GetSceneMngrInstance())->GetScene());
-	mapmngr_ = game_->GetMapmngr();
+void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance) {
+	mapmngr_ = MapmngrInstance;
 	map_ = mapmngr_->GetMap();
-	camera_ = game_->GetCamera();
+	camera_ = CameraInstance;
 }
 
 Player::~Player() = default;

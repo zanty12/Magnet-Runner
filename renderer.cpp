@@ -9,7 +9,6 @@
 #include "renderer.h"
 
 
-
 //*********************************************************
 // 構造体
 //*********************************************************
@@ -25,7 +24,7 @@ ID3D11DeviceContext*    g_ImmediateContext = NULL;
 IDXGISwapChain*         g_SwapChain = NULL;
 ID3D11RenderTargetView* g_RenderTargetView = NULL;
 ID3D11DepthStencilView* g_DepthStencilView = NULL;
-
+UINT                    g_CreateDeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 
 ID3D11VertexShader*     g_VertexShader = NULL;
@@ -53,16 +52,42 @@ static ID3D11RasterizerState*	g_RasterStateCullCCW;
 
 static D3DXCOLOR				g_BorderColor;
 
+ID2D1Factory* g_pD2DFactory = nullptr;
+IDWriteFactory* g_pDWriteFactory = nullptr;
+IDWriteTextFormat* g_pTextFormat = nullptr;
+ID2D1RenderTarget* g_pRT = nullptr;
+ID2D1SolidColorBrush* g_pSolidBrush = nullptr;
+IDXGISurface* g_pBackBuffer = nullptr;
+
 
 ID3D11Device* GetDevice( void )
 {
 	return g_D3DDevice;
 }
 
-
 ID3D11DeviceContext* GetDeviceContext( void )
 {
 	return g_ImmediateContext;
+}
+
+ID2D1RenderTarget* GetDWRenderTarget(void)
+{
+	return g_pRT;
+}
+
+IDWriteFactory* GetDWFactory(void)
+{
+	return g_pDWriteFactory;
+}
+
+ID2D1SolidColorBrush* GetDWSolidColorBrush(void)
+{
+	return g_pSolidBrush;
+}
+
+IDWriteTextFormat* GetDWTextFormat(void)
+{
+	return g_pTextFormat;
 }
 
 
@@ -260,7 +285,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	hr = D3D11CreateDeviceAndSwapChain( NULL,
 										D3D_DRIVER_TYPE_HARDWARE,
 										NULL,
-										0,
+										g_CreateDeviceFlags,
 										NULL,
 										0,
 										D3D11_SDK_VERSION,
@@ -511,6 +536,55 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_ImmediateContext->VSSetShader( g_VertexShader, NULL, 0 );
 	g_ImmediateContext->PSSetShader( g_PixelShader, NULL, 0 );
 
+	// Direct2D,DirectWriteの初期化
+	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &g_pD2DFactory);
+	if (FAILED(hr))
+		return hr;
+
+	hr = g_SwapChain->GetBuffer(0, IID_PPV_ARGS(&g_pBackBuffer));
+	if (FAILED(hr))
+		return hr;
+
+	FLOAT dpiX;
+	FLOAT dpiY;
+	g_pD2DFactory->GetDesktopDpi(&dpiX, &dpiY);
+
+	D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpiX, dpiY);
+
+	hr = g_pD2DFactory->CreateDxgiSurfaceRenderTarget(g_pBackBuffer, &props, &g_pRT);
+	if (FAILED(hr))
+		return hr;
+
+	hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&g_pDWriteFactory));
+	if (FAILED(hr))
+		return hr;
+
+	//関数CreateTextFormat()
+	//第1引数：フォント名（L"メイリオ", L"Arial", L"Meiryo UI"等）
+	//第2引数：フォントコレクション（nullptr）
+	//第3引数：フォントの太さ（DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_WEIGHT_BOLD等）
+	//第4引数：フォントスタイル（DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STYLE_OBLIQUE, DWRITE_FONT_STYLE_ITALIC）
+	//第5引数：フォントの幅（DWRITE_FONT_STRETCH_NORMAL,DWRITE_FONT_STRETCH_EXTRA_EXPANDED等）
+	//第6引数：フォントサイズ（20, 30等）
+	//第7引数：ロケール名（L""）
+	//第8引数：テキストフォーマット（&g_pTextFormat）
+	hr = g_pDWriteFactory->CreateTextFormat(L"メイリオ", nullptr, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 20, L"", &g_pTextFormat);
+	if (FAILED(hr))
+		return hr;
+
+	//関数SetTextAlignment()
+	//第1引数：テキストの配置（DWRITE_TEXT_ALIGNMENT_LEADING：前, DWRITE_TEXT_ALIGNMENT_TRAILING：後, DWRITE_TEXT_ALIGNMENT_CENTER：中央,
+	//                         DWRITE_TEXT_ALIGNMENT_JUSTIFIED：行いっぱい）
+	hr = g_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+	if (FAILED(hr))
+		return hr;
+
+	//関数CreateSolidColorBrush()
+	//第1引数：フォント色（D2D1::ColorF(D2D1::ColorF::Black)：黒, D2D1::ColorF(D2D1::ColorF(0.0f, 0.2f, 0.9f, 1.0f))：RGBA指定）
+	hr = g_pRT->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &g_pSolidBrush);
+	if (FAILED(hr))
+		return hr;
+
 
 	return S_OK;
 }
@@ -545,6 +619,13 @@ void UninitRenderer(void)
 	if( g_SwapChain )			g_SwapChain->Release();
 	if( g_ImmediateContext )	g_ImmediateContext->Release();
 	if( g_D3DDevice )			g_D3DDevice->Release();
+
+	if (g_pBackBuffer) g_pBackBuffer->Release();
+	if (g_pSolidBrush) g_pSolidBrush->Release();
+	if (g_pRT) g_pRT->Release();
+	if (g_pTextFormat) g_pTextFormat->Release();
+	if (g_pDWriteFactory) g_pDWriteFactory->Release();
+	if (g_pD2DFactory) g_pD2DFactory->Release();
 }
 
 

@@ -13,7 +13,7 @@
 #include "polygon.h"
 #include "texture.h"
 #include "sprite.h"
-#include "calculations.h"
+#include "text.h"
 #include "scenemngr.h"
 #include "sound.h"
 
@@ -220,6 +220,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	// 頂点管理の初期化処理
 	InitPolygon();
+
+	//テキスト
+	InitText();
 	
 	g_Scenemngr = new Scenemngr();
 	g_Scenemngr->Init();

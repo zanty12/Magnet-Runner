@@ -18,9 +18,8 @@ void Game::Init() {
 	camera_ = new Camera();
 	
 	mapmngr_->LoadMap("data/MAP/map2.csv");
-	camera_->SetPlayer(player_);
-	camera_->SetMapmngr(mapmngr_);
-	player_->Init();
+	camera_->Init(player_, mapmngr_);
+	player_->Init(mapmngr_,camera_);
 }
 
 void Game::Init(const char* fileName)
@@ -32,9 +31,8 @@ void Game::Init(const char* fileName)
 	camera_ = new Camera();
 	
 	mapmngr_->LoadMap(fileName);
-	camera_->SetPlayer(player_);
-	camera_->SetMapmngr(mapmngr_);
-	player_->Init();
+	camera_->Init(player_, mapmngr_);
+	player_->Init(mapmngr_, camera_);
 }
 
 void Game::Update()
