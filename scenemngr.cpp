@@ -1,16 +1,19 @@
 #include "scenemngr.h"
+#include "scene.h"
+#include "title.h"
+#include "game.h"
 
 Scenemngr::Scenemngr()
 {
 	switch (sceneNo_) {
 	case SCENE_TITLE:
-		//scene_ = new Title();
+		scene_ = new Title(this);
 		break;
 	case SCENE_MENU:
 		//scene_ = new Menu();
 		break;
 	case SCENE_GAME:
-		scene_ = new Game();
+		scene_ = new Game(this);
 		break;
 	case SCENE_RESULT:
 		//scene_ = new Result();
@@ -25,15 +28,26 @@ Scenemngr::~Scenemngr()
 	delete scene_;
 }
 
+void Scenemngr::Init() {
+	scene_->Init();
+}
+void Scenemngr::Update() {
+	scene_->Update();
+}
+void Scenemngr::Draw() {
+	scene_->Draw();
+}
+
 
 
 void Scenemngr::SetScene(SCENENO sceneNo)
 {
 	if (sceneNo != sceneNo_) {
+		sceneNo_ = sceneNo;
 		delete scene_;
 		switch (sceneNo) {
 		case SCENE_TITLE:
-			//scene_ = new Title();
+			scene_ = new Title();
 			break;
 		case SCENE_MENU:
 			//scene_ = new Menu();
@@ -47,5 +61,6 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		default:
 			break;
 		}
+		scene_->Init();
 	}
 }

@@ -11,7 +11,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "gameobject.h"
-#include "cell.h"
+#include "gamemodules.h"
 
 typedef enum {
 	DIRECTION_UP = 0,
@@ -34,20 +34,23 @@ private:
 	int animePattern_ = 0;
 	int animeSkipFrame_ = 0;
 	bool isGravity_ = true;
-	GRAV_STATE gravState_= GRAV_NORMAL;
+	GRAV_STATE gravState_ = GRAV_NORMAL;
 	bool jumped_ = false;
 	bool grounded_ = false;
 	Cell* interactCell_[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 	Cell* oldInteractCell_[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 	DIRECTION direction_ = DIRECTION_CENTER;
 
-	
+	Mapmngr* mapmngr_ = nullptr;
+	Map* map_ = nullptr;
+	Camera* camera_ = nullptr;
+
 public:
 	Player();
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel);
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot);
 	~Player();
-	void Init(void);
+	void Init(Mapmngr* MapmngrInstance, Camera* CameraInstance);
 	void Update(void) override;
 	void Draw(void) override;
 	D3DXVECTOR2 GetVel() { return vel_; }
@@ -61,5 +64,3 @@ private:
 	void PoleBlockInteract(Cell* cell, DIRECTION direction);
 
 };
-
-

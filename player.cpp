@@ -10,14 +10,12 @@
 #include "input.h"
 #include "sprite.h"
 #include "texture.h"
+#include "main.h"
 #include "bullet.h"
 #include "calculations.h"
 #include "mapmngr.h"
-#include "main.h"
-#include "game.h"
 #include "camera.h" 
 #include "map.h"
-#include "mapmngr.h"
 #include "scenemngr.h"
 #include <cmath>
 
@@ -49,10 +47,7 @@
 // グローバル変数
 //*****************************************************************************
 
-Game* game_ = nullptr;
-Mapmngr* mapmngr_ = nullptr;
-Map* map_ = nullptr;
-Camera* camera_ = nullptr;
+
 
 
 
@@ -66,7 +61,7 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
 	vel = vel;
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
-	
+
 }
 
 Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, color)
@@ -75,14 +70,13 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 	rot = rot;
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
-	
+
 }
 
-void Player::Init() {
-	game_ = (Game*)(((Scenemngr*)GetSceneMngrInstance())->GetScene());
-	mapmngr_ = game_->GetMapmngr();
+void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance) {
+	mapmngr_ = MapmngrInstance;
 	map_ = mapmngr_->GetMap();
-	camera_ = game_->GetCamera();
+	camera_ = CameraInstance;
 }
 
 Player::~Player() = default;
@@ -94,7 +88,7 @@ void Player::Update(void)
 	static bool isAnim = false;
 	if (vel_.x < 0.0f)
 		vel_.x += 1.0f;
-	
+
 	else if (vel_.x > 0.0f)
 		vel_.x -= 1.0f;
 	if (isGravity_) {
@@ -108,7 +102,7 @@ void Player::Update(void)
 			vel_.y = MAX_GRAVITY;
 	}
 
-	if(vel_.x > MAX_SPEED_X)
+	if (vel_.x > MAX_SPEED_X)
 		vel_.x = MAX_SPEED_X;
 
 	//キーボード
@@ -152,7 +146,7 @@ void Player::Update(void)
 		color_ = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
 	}
-	
+
 	if (GetKeyboardPress(DIK_R))
 	{
 		pole_ = POLE_NONE;
@@ -170,7 +164,7 @@ void Player::Update(void)
 	//周りのマス取得
 	int xIndex = std::floor(pos_.x / size_.x);
 	int yIndex = std::floor(pos_.y / size_.y);
-	
+
 	//save the old blocks
 	for (int i = 0; i < 4; i++) {
 		oldInteractCell_[i] = interactCell_[i];
@@ -185,7 +179,7 @@ void Player::Update(void)
 			interactCell_[DIRECTION_UP] = temp;
 			break;
 		}
-		else if(i == RAY_LENGTH)
+		else if (i == RAY_LENGTH)
 			interactCell_[DIRECTION_UP] = nullptr;
 	}
 	temp = nullptr;
@@ -277,7 +271,7 @@ void Player::Update(void)
 void Player::Draw(void)
 {
 	//プレイヤーの描画
-	
+
 	float DiffX = camera_->GetPos().x - SCREEN_WIDTH / 2;
 	float DiffY = camera_->GetPos().y - SCREEN_HEIGHT / 2;
 	if (DiffX < 0)
@@ -427,6 +421,3 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 		break;
 	}
 }
-
-
-
