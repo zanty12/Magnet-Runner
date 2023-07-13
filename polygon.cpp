@@ -11,7 +11,6 @@
 #include "sprite.h"
 #include "texture.h"
 
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -29,11 +28,10 @@
 // プロトタイプ宣言
 //*****************************************************************************
 
-
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-struct POLYGON{
+struct POLYGON {
 	D3DXVECTOR2		pos;	//位置ベクトル
 	D3DXVECTOR2		vel;	//速度ベクトル
 	D3DXCOLOR		color;	//頂点カラー
@@ -59,7 +57,7 @@ static unsigned int g_StartTime = 0;
 //=============================================================================
 void InitPolygon(void)
 {
-	ID3D11Device *pDevice = GetDevice();
+	ID3D11Device* pDevice = GetDevice();
 
 	//テクスチャの読み込み
 	g_TexNo = LoadTexture((char*)"data/TEXTURE/number000.png");
@@ -76,7 +74,7 @@ void InitPolygon(void)
 
 		g_Polygon[i].color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-		g_Polygon[i].rot = frand()*(D3DX_PI * 2);
+		g_Polygon[i].rot = frand() * (D3DX_PI * 2);
 	}
 
 	//ゲームの開始時刻を保存する
@@ -88,7 +86,6 @@ void InitPolygon(void)
 //=============================================================================
 void UninitPolygon(void)
 {
-
 }
 
 //=============================================================================
@@ -96,8 +93,6 @@ void UninitPolygon(void)
 //=============================================================================
 void UpdatePolygon(void)
 {
-
-
 	g_AnimeSkipFrame++;
 	if (g_AnimeSkipFrame > ANIME_PTN_WAIT)
 	{
@@ -129,7 +124,7 @@ void DrawPolygon(void)
 	{
 		//スコアの描画
 		DrawSpriteColorRotate(g_TexNo,
-			1500.0f - (70.0f*i), 70.0f,
+			1500.0f - (70.0f * i), 70.0f,
 			70.0f, 140.0f,
 			ANIME_PTN_U * (score % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
@@ -146,7 +141,7 @@ void DrawPolygon(void)
 	{
 		//スコアの描画
 		DrawSpriteColorRotate(g_TexNo,
-			500.0f - (70.0f*i), 70.0f,
+			500.0f - (70.0f * i), 70.0f,
 			70.0f, 140.0f,
 			ANIME_PTN_U * (second % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
@@ -156,7 +151,6 @@ void DrawPolygon(void)
 		second = second / 10;
 	}
 
-
 	int milisecond = g_MiliSecond;
 
 	//ミリ秒表示
@@ -164,7 +158,7 @@ void DrawPolygon(void)
 	{
 		//スコアの描画
 		DrawSpriteColorRotate(g_TexNo,
-			710.0f - (70.0f*i), 70.0f,
+			710.0f - (70.0f * i), 70.0f,
 			70.0f, 140.0f,
 			ANIME_PTN_U * (milisecond % 10), 0.0f,//UV値の始点
 			ANIME_PTN_U, ANIME_PTN_V,
@@ -173,5 +167,4 @@ void DrawPolygon(void)
 
 		milisecond = milisecond / 10;
 	}
-
 }

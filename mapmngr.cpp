@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 
-
 void Mapmngr::LoadMap(const char* fileName)
 {
 	//load a csv file with the first line being the map size and create a map with that size
@@ -15,32 +14,28 @@ void Mapmngr::LoadMap(const char* fileName)
 		return;
 	}
 	std::string line;
-	std::getline(file,line);
+	std::getline(file, line);
 	std::stringstream ss(line);
 	std::string item;
-	std::getline(ss,item,',');
+	std::getline(ss, item, ',');
 	int width = stoi(item);
-	std::getline(ss,item,',');
+	std::getline(ss, item, ',');
 	int height = stoi(item);
-	map_ = new Map(width,height);
+	map_ = new Map(width, height);
 	mapData_ = new int[width * height];
 	int y = 0;
-	while(std::getline(file,line))
+	while (std::getline(file, line))
 	{
 		std::stringstream ss(line);
 		std::string item;
 		int x = 0;
-		while(std::getline(ss,item,','))
+		while (std::getline(ss, item, ','))
 		{
 			mapData_[y * width + x] = stoi(item);
-			map_->PutCell(x,y,stoi(item));
+			map_->PutCell(x, y, stoi(item));
 			x++;
 		}
 		y++;
 	}
 	file.close();
-    
-
-
-
 }

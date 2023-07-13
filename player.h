@@ -62,5 +62,4 @@ private:
 	void CellInteract(Cell* cell, DIRECTION direction);
 	void BlockInteract(Cell* cell, DIRECTION direction);
 	void PoleBlockInteract(Cell* cell, DIRECTION direction);
-
 };

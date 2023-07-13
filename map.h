@@ -1,8 +1,6 @@
 #pragma once
 #include "cell.h"
 
-
-
 class Map
 {
 private:
@@ -26,9 +24,6 @@ public:
 	Cell* GetCell(D3DXVECTOR2 pos) {
 		int x = (int)(pos.x / 96.0f);
 		int y = (int)(pos.y / 96.0f);
-		return GetCell(x,y);
+		return GetCell(x, y);
 	}
-	
-
 };
-
