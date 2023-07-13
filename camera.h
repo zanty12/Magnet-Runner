@@ -1,7 +1,6 @@
 #pragma once
 #include "main.h"
-#include "player.h"
-#include "mapmngr.h"
+#include "gamemodules.h"
 #include "texture.h"
 
 #define MOVE_BORDER_X 600.0f //the camera will move with the player if the player touches the border
@@ -20,12 +19,11 @@ private:
 public:
 	Camera();
 	~Camera() = default;
+	void Init(Player* player, Mapmngr* mapmngr);
 	void Update();
 	void Draw();
 	bool InCamera(D3DXVECTOR2 pos);
 	D3DXVECTOR2 GetPos() { return pos_; };
-	void SetPlayer(Player* player) { player_ = player; }
-	void SetMapmngr(Mapmngr* mapmngr) { mapmngr_ = mapmngr; }
+
 
 };
-
