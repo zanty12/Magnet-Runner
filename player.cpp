@@ -42,10 +42,6 @@
 #define BLOCK_ACCELY 10.0f
 #define RAY_LENGTH 7 //上下左右のブロックを探す範囲
 
-//*****************************************************************************
-// グローバル変数
-//*****************************************************************************
-
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
@@ -76,12 +72,15 @@ Player::~Player() = default;
 
 void Player::Update(void)
 {
-	static bool isAnim = false;
+	static bool isAnim = false; // Flag to indicate if animation is active
+	
+	// Adjust horizontal velocity
 	if (vel_.x < 0.0f)
 		vel_.x += 1.0f;
-
 	else if (vel_.x > 0.0f)
 		vel_.x -= 1.0f;
+
+	// Apply gravity if enabled
 	if (isGravity_) {
 		if (vel_.y < MAX_GRAVITY) {
 			if (gravState_ == GRAV_HALF)
@@ -92,7 +91,7 @@ void Player::Update(void)
 		if (vel_.y >= MAX_GRAVITY)
 			vel_.y = MAX_GRAVITY;
 	}
-
+	// Limit horizontal velocity
 	if (vel_.x > MAX_SPEED_X)
 		vel_.x = MAX_SPEED_X;
 
