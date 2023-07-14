@@ -256,6 +256,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
+	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	hr = D3D11CreateDeviceAndSwapChain( NULL,
 										D3D_DRIVER_TYPE_HARDWARE,
@@ -512,6 +513,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_ImmediateContext->PSSetShader( g_PixelShader, NULL, 0 );
 
 
+	//fullscreen
+	g_SwapChain->SetFullscreenState(TRUE, NULL);
+
 	return S_OK;
 }
 
@@ -521,6 +525,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //=============================================================================
 void UninitRenderer(void)
 {
+	g_SwapChain->SetFullscreenState(FALSE, NULL);
 	// オブジェクト解放
 	if (g_DepthStateEnable)		g_DepthStateEnable->Release();
 	if (g_DepthStateDisable)	g_DepthStateDisable->Release();
