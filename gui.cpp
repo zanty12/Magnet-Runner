@@ -13,7 +13,7 @@ void ImGuiInit(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* deviceConte
 
 	ImGui::StyleColorsDark();
 	//ついでに日本語フォントも追加
-	io.Fonts->AddFontFromFileTTF("data/TEXTURE/NotoSansJP-VariableFont_wght.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+	io.Fonts->AddFontFromFileTTF("data/TEXTURE/NotoSansJP-Bold.ttf", 20.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 	io.MouseDrawCursor = true;
 	
 }
