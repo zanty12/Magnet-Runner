@@ -514,7 +514,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 
 	//fullscreen
-	g_SwapChain->SetFullscreenState(TRUE, NULL);
+	//g_SwapChain->SetFullscreenState(TRUE, NULL);
 
 	return S_OK;
 }

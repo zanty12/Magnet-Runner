@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "title.h"
 #include "game.h"
+#include "text.h"
 
 Scenemngr::Scenemngr()
 {
@@ -30,12 +31,14 @@ Scenemngr::~Scenemngr()
 
 void Scenemngr::Init() {
 	scene_->Init();
+	InitText();
 }
 void Scenemngr::Update() {
 	scene_->Update();
 }
 void Scenemngr::Draw() {
 	scene_->Draw();
+	DrawText();
 }
 
 void Scenemngr::SetScene(SCENENO sceneNo)
@@ -43,6 +46,7 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 	if (sceneNo != sceneNo_) {
 		sceneNo_ = sceneNo;
 		delete scene_;
+		ClearText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
 			scene_ = new Title();

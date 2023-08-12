@@ -16,7 +16,6 @@
 #include "calculations.h"
 #include "scenemngr.h"
 #include "sound.h"
-#include "gui.h"
 
 
 //*****************************************************************************
@@ -115,7 +114,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	dwCurrentTime = dwFrameCount = 0;
 	
 	// ウインドウの表示(Init()の後に呼ばないと駄目)
-	ShowWindow(hWnd, SW_MAXIMIZE);
+	ShowWindow(hWnd, nCmdShow);
+	//ShowWindow(hWnd, SW_MAXIMIZE);
 	UpdateWindow(hWnd);
 	
 	// メッセージループ
@@ -180,12 +180,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 // プロシージャ
 //=============================================================================
 
-// Forward declare message handler from imgui_impl_win32.cpp
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-		return true;
+	
 	switch( message )
 	{
 	case WM_DESTROY:
@@ -221,8 +218,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	InitSound(hWnd);
 
-	//ImGui
-	ImGuiInit(hWnd, GetDevice(), GetDeviceContext());
+	
 	// スプライトの初期化
 	InitSprite();
 
@@ -253,7 +249,7 @@ void Uninit(void)
 	// テクスチャの全解放
 	UninitTexture();
 
-	ImGuiUninit();
+	
 
 	UninitSound();
 	// 入力処理の終了処理
@@ -292,12 +288,12 @@ void Draw(void)
 	// 2D描画なので深度無効
 	SetDepthEnable(false);
 
-	ImGuiBeginDraw();
+	
 
 	// 頂点管理の描画処理
 	g_Scenemngr->Draw();
 
-	ImGuiEndDraw();
+	
 	// バックバッファ、フロントバッファ入れ替え
 	Present();
 }
