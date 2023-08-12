@@ -139,12 +139,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapmngr.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="menuopt.cpp" />
     <ClCompile Include="minus.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="plus.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="scene.cpp" />
     <ClCompile Include="scenemngr.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
@@ -165,6 +166,8 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mapmngr.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="menuopt.h" />
     <ClInclude Include="minus.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="plus.h" />
