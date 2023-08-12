@@ -135,7 +135,6 @@
     <ClCompile Include="calculations.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameobject.cpp" />
-    <ClCompile Include="gui.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -149,15 +148,9 @@
     <ClCompile Include="scenemngr.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_demo.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="vendor\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
@@ -168,7 +161,6 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gamemodules.h" />
     <ClInclude Include="gameobject.h" />
-    <ClInclude Include="gui.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
@@ -183,16 +175,10 @@
     <ClInclude Include="scenemodules.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite.h" />
+    <ClInclude Include="text.h" />
+    <ClInclude Include="textprop.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
-    <ClInclude Include="vendor\ImGui\imconfig.h" />
-    <ClInclude Include="vendor\ImGui\imgui.h" />
-    <ClInclude Include="vendor\ImGui\imgui_impl_dx11.h" />
-    <ClInclude Include="vendor\ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="vendor\ImGui\imgui_internal.h" />
-    <ClInclude Include="vendor\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="vendor\ImGui\imstb_textedit.h" />
-    <ClInclude Include="vendor\ImGui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
