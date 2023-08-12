@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "title.h"
 #include "game.h"
+#include "menu.h"
 #include "text.h"
 
 Scenemngr::Scenemngr()
@@ -11,7 +12,7 @@ Scenemngr::Scenemngr()
 		scene_ = new Title(this);
 		break;
 	case SCENE_MENU:
-		//scene_ = new Menu();
+		scene_ = new Menu(this);
 		break;
 	case SCENE_GAME:
 		scene_ = new Game(this);
@@ -49,13 +50,40 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		ClearText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
-			scene_ = new Title();
+			scene_ = new Title(this);
 			break;
 		case SCENE_MENU:
-			//scene_ = new Menu();
+			scene_ = new Menu(this);
 			break;
 		case SCENE_GAME:
-			scene_ = new Game();
+			scene_ = new Game(this);
+			break;
+		case SCENE_RESULT:
+			//scene_ = new Result();
+			break;
+		default:
+			break;
+		}
+		scene_->Init();
+	}
+}
+
+void Scenemngr::SetScene(SCENENO sceneNo,std::string mapFile)
+{
+	if (sceneNo != sceneNo_) {
+		sceneNo_ = sceneNo;
+		delete scene_;
+		ClearText();
+		switch (sceneNo) {
+		case SCENE_TITLE:
+			scene_ = new Title(this);
+			break;
+		case SCENE_MENU:
+			scene_ = new Menu(this);
+			break;
+		case SCENE_GAME:
+			scene_ = new Game(this);
+			((Game*)scene_)->LoadMap(mapFile.c_str());
 			break;
 		case SCENE_RESULT:
 			//scene_ = new Result();

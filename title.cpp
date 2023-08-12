@@ -9,12 +9,14 @@ void Title::Init()
 {
 	titleTex_ = LoadTexture((char*)"data/TEXTURE/title.png");
 	bgTex_ = LoadTexture((char*)"data/TEXTURE/title_bg.png");
-	PrintText(std::string("press enter"), D3DXVECTOR2(400.0f, 960.0f));
+	PrintText(std::string("press enter"), D3DXVECTOR2(520.0f, 960.0f));
 }
 
 void Title::Update()
 {
-	
+	if (GetKeyboardPress(DIK_RETURN)) {
+		mngr_->SetScene(SCENE_MENU);
+	}
 }
 
 void Title::Draw()

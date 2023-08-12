@@ -1,6 +1,7 @@
 #pragma once
 #include "main.h"
 #include "scenemodules.h"
+#include<string>
 
 class Scenemngr
 {
@@ -15,6 +16,7 @@ public:
 	void Update();
 	void Draw();
 	void SetScene(SCENENO sceneNo);
+	void SetScene(SCENENO sceneNo, std::string mapFile);
 	SCENENO GetSceneNo() { return sceneNo_; }
 	Scene* GetScene() { return scene_; }
 };

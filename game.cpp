@@ -17,20 +17,7 @@ void Game::Init() {
 	player_ = new Player();
 	camera_ = new Camera();
 
-	mapmngr_->LoadMap("data/MAP/map2.csv");
-	camera_->Init(player_, mapmngr_);
-	player_->Init(mapmngr_, camera_);
-}
-
-void Game::Init(const char* fileName)
-{
-	InitPolygon();
-	InitBullet();
-	mapmngr_ = new Mapmngr();
-	player_ = new Player();
-	camera_ = new Camera();
-
-	mapmngr_->LoadMap(fileName);
+	mapmngr_->LoadMap(fileName_);
 	camera_->Init(player_, mapmngr_);
 	player_->Init(mapmngr_, camera_);
 }
