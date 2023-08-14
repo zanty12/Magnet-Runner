@@ -10,6 +10,8 @@
 
 #include "main.h"
 #include "renderer.h"
+#include "gamemodules.h"
+#include "gameobject.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -19,6 +21,10 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
+
+class Bullet : public GameObject {
+
+};
 void InitBullet(void);
 void UninitBullet(void);
 void UpdateBullet(void);
