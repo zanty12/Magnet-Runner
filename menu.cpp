@@ -9,6 +9,7 @@ Menu::~Menu()
 	for (auto& opt : options) {
 		delete opt;
 	}
+	options.clear();
 }
 
 

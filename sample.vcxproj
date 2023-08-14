@@ -131,6 +131,7 @@
     <ClCompile Include="block.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cannon.cpp" />
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="calculations.cpp" />
     <ClCompile Include="game.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="block.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cannon.h" />
     <ClInclude Include="cell.h" />
     <ClInclude Include="calculations.h" />
     <ClInclude Include="game.h" />
