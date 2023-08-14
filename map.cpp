@@ -2,6 +2,7 @@
 #include "block.h"
 #include "plus.h"
 #include "minus.h"
+#include "cannon.h"
 
 Map::Map()
 {
@@ -47,6 +48,18 @@ void Map::PutCell(int x, int y, int type)
 		break;
 	case(CELL_BLOCK_MINUS):
 		map_[y * width_ + x] = new Minus(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2));
+		break;
+	case(CELL_CANNON_UP):
+		map_[y * width_ + x] = new Cannon(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2), CELL_CANNON_UP);
+		break;
+	case(CELL_CANNON_DOWN):
+		map_[y * width_ + x] = new Cannon(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2), CELL_CANNON_DOWN);
+		break;
+	case(CELL_CANNON_LEFT):
+		map_[y * width_ + x] = new Cannon(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2), CELL_CANNON_LEFT);
+		break;
+	case(CELL_CANNON_RIGHT):
+		map_[y * width_ + x] = new Cannon(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2), CELL_CANNON_RIGHT);
 		break;
 	default:
 		map_[y * width_ + x] = nullptr;
