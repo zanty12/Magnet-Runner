@@ -42,6 +42,8 @@ private:
 	DIRECTION direction_ = DIRECTION_CENTER;
 	int life_ = 3;
 	bool isClear_ = false;
+	bool isInvincible_ = false;
+	int invincibleFrame_ = 180;
 
 	Mapmngr* mapmngr_ = nullptr;
 	Map* map_ = nullptr;

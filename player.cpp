@@ -170,7 +170,7 @@ void Player::Update(void)
 			interactCell_[DIRECTION_UP] = nullptr;
 			oldInteractCell_[DIRECTION_UP] = nullptr;
 		}
-			
+
 	}
 	temp = nullptr;
 	//down
@@ -185,7 +185,7 @@ void Player::Update(void)
 			interactCell_[DIRECTION_DOWN] = nullptr;
 			oldInteractCell_[DIRECTION_DOWN] = nullptr;
 		}
-			
+
 	}
 	temp = nullptr;
 	//left
@@ -214,7 +214,7 @@ void Player::Update(void)
 			interactCell_[DIRECTION_RIGHT] = nullptr;
 			oldInteractCell_[DIRECTION_RIGHT] = nullptr;
 		}
-			
+
 	}
 	//center
 	interactCell_[DIRECTION_CENTER] = map_->GetCell(xIndex, yIndex);
@@ -260,8 +260,14 @@ void Player::Update(void)
 	}
 	isAnim = false;
 	u_ = (animePattern_ % ANIME_PTN_YOKO) * ANIME_PTN_U;
+	if (isInvincible_ == true)
+		invincibleFrame_--;
+	if (invincibleFrame_ <= 0) {
+		isInvincible_ = false;
+		invincibleFrame_ = 180;
+	}
+	
 }
-
 //=============================================================================
 // •`‰æˆ—
 //=============================================================================
@@ -275,6 +281,7 @@ void Player::Draw(void)
 		DiffX = 0;
 	if (DiffY < 0)
 		DiffY = 0;
+	if (!isInvincible_ || (isInvincible_ && invincibleFrame_ / 20 % 2 == 1))
 	DrawSpriteColor(texNo_,
 		pos_.x - DiffX, pos_.y - DiffY,
 		96.0f, 96.0f,
@@ -448,12 +455,13 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 }
 
 void Player::SpikeInteract(Cell* cell, DIRECTION direction) {
-	if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
+	if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y) && !isInvincible_)
 	{
 		Cell** find = std::find(std::begin(oldInteractCell_), std::end(oldInteractCell_), cell);
 		if (find == std::end(oldInteractCell_)) // not interacted before
 		{
 			DecreaseLife();
+			isInvincible_ = true;
 			oldInteractCell_[direction] = cell;
 		}
 	}
