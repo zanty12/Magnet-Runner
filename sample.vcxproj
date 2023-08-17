@@ -134,6 +134,7 @@
     <ClCompile Include="cannon.cpp" />
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="calculations.cpp" />
+    <ClCompile Include="fail.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scenemngr.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="spike.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -161,6 +163,7 @@
     <ClInclude Include="cannon.h" />
     <ClInclude Include="cell.h" />
     <ClInclude Include="calculations.h" />
+    <ClInclude Include="fail.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamemodules.h" />
     <ClInclude Include="gameobject.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="scenemngr.h" />
     <ClInclude Include="scenemodules.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="spike.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="textprop.h" />

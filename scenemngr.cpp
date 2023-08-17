@@ -4,6 +4,7 @@
 #include "game.h"
 #include "menu.h"
 #include "text.h"
+#include "fail.h"
 
 Scenemngr::Scenemngr()
 {
@@ -17,7 +18,10 @@ Scenemngr::Scenemngr()
 	case SCENE_GAME:
 		scene_ = new Game(this);
 		break;
-	case SCENE_RESULT:
+	case SCENE_RESULT_FAIL:
+		scene_ = new Fail(this);
+		break;
+	case SCENE_RESULT_CLEAR:
 		//scene_ = new Result();
 		break;
 	default:
@@ -58,7 +62,10 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		case SCENE_GAME:
 			scene_ = new Game(this);
 			break;
-		case SCENE_RESULT:
+		case SCENE_RESULT_FAIL:
+			scene_ = new Fail(this);
+			break;
+		case SCENE_RESULT_CLEAR:
 			//scene_ = new Result();
 			break;
 		default:
@@ -68,7 +75,7 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 	}
 }
 
-void Scenemngr::SetScene(SCENENO sceneNo,std::string mapFile)
+void Scenemngr::SetScene(SCENENO sceneNo, std::string mapFile)
 {
 	if (sceneNo != sceneNo_) {
 		sceneNo_ = sceneNo;
@@ -85,7 +92,10 @@ void Scenemngr::SetScene(SCENENO sceneNo,std::string mapFile)
 			scene_ = new Game(this);
 			((Game*)scene_)->LoadMap(mapFile.c_str());
 			break;
-		case SCENE_RESULT:
+		case SCENE_RESULT_FAIL:
+			scene_ = new Fail(this);
+			break;
+		case SCENE_RESULT_CLEAR:
 			//scene_ = new Result();
 			break;
 		default:
