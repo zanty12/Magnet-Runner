@@ -18,6 +18,7 @@
 #include "map.h"
 #include "scenemngr.h"
 #include <cmath>
+#include <algorithm>
 
 //*****************************************************************************
 // マクロ定義
@@ -73,7 +74,7 @@ Player::~Player() = default;
 void Player::Update(void)
 {
 	static bool isAnim = false; // Flag to indicate if animation is active
-	
+
 	// Adjust horizontal velocity
 	if (vel_.x < 0.0f)
 		vel_.x += 1.0f;
@@ -152,7 +153,7 @@ void Player::Update(void)
 	int yIndex = std::floor(pos_.y / size_.y);
 
 	//save the old blocks
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 5; i++) {
 		oldInteractCell_[i] = interactCell_[i];
 	}
 
@@ -165,8 +166,11 @@ void Player::Update(void)
 			interactCell_[DIRECTION_UP] = temp;
 			break;
 		}
-		else if (i == RAY_LENGTH)
+		else if (i == RAY_LENGTH) {
 			interactCell_[DIRECTION_UP] = nullptr;
+			oldInteractCell_[DIRECTION_UP] = nullptr;
+		}
+			
 	}
 	temp = nullptr;
 	//down
@@ -177,8 +181,11 @@ void Player::Update(void)
 			interactCell_[DIRECTION_DOWN] = temp;
 			break;
 		}
-		else if (i == RAY_LENGTH)
+		else if (i == RAY_LENGTH) {
 			interactCell_[DIRECTION_DOWN] = nullptr;
+			oldInteractCell_[DIRECTION_DOWN] = nullptr;
+		}
+			
 	}
 	temp = nullptr;
 	//left
@@ -189,8 +196,10 @@ void Player::Update(void)
 			interactCell_[DIRECTION_LEFT] = temp;
 			break;
 		}
-		else if (i == RAY_LENGTH)
+		else if (i == RAY_LENGTH) {
 			interactCell_[DIRECTION_LEFT] = nullptr;
+			oldInteractCell_[DIRECTION_LEFT] = nullptr;
+		}
 	}
 	temp = nullptr;
 	//right
@@ -201,11 +210,15 @@ void Player::Update(void)
 			interactCell_[DIRECTION_RIGHT] = temp;
 			break;
 		}
-		else if (i == RAY_LENGTH)
+		else if (i == RAY_LENGTH) {
 			interactCell_[DIRECTION_RIGHT] = nullptr;
+			oldInteractCell_[DIRECTION_RIGHT] = nullptr;
+		}
+			
 	}
 	//center
 	interactCell_[DIRECTION_CENTER] = map_->GetCell(xIndex, yIndex);
+	oldInteractCell_[DIRECTION_CENTER] = map_->GetCell(xIndex, yIndex);
 
 	for (int i = 0; i < DIRECTION_MAX; i++) {
 		CellInteract(interactCell_[i], (DIRECTION)i);
@@ -286,6 +299,30 @@ void Player::CellInteract(Cell* cell, DIRECTION direction)
 	case CELL_BLOCK_MINUS:
 		PoleBlockInteract(cell, direction);
 		break;
+	case CELL_CANNON_UP:
+		BlockInteract(cell, direction);
+		break;
+	case CELL_CANNON_DOWN:
+		BlockInteract(cell, direction);
+		break;
+	case CELL_CANNON_LEFT:
+		BlockInteract(cell, direction);
+		break;
+	case CELL_CANNON_RIGHT:
+		BlockInteract(cell, direction);
+		break;
+	case CELL_SPIKE_UP:
+		SpikeInteract(cell, direction);
+		break;
+	case CELL_SPIKE_DOWN:
+		SpikeInteract(cell, direction);
+		break;
+	case CELL_SPIKE_LEFT:
+		SpikeInteract(cell, direction);
+		break;
+	case CELL_SPIKE_RIGHT:
+		SpikeInteract(cell, direction);
+		break;
 	default:
 		break;
 	}
@@ -301,8 +338,8 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 			pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - size_.y / 2;
 			grounded_ = true;
 			gravState_ = GRAV_NORMAL;
+			oldInteractCell_[direction] = cell;
 		}
-
 		else
 		{
 			grounded_ = false;
@@ -313,6 +350,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.y = cell->GetPos().y + cell->GetSize().y / 2 + size_.y / 2;
+			oldInteractCell_[direction] = cell;
 		}
 		break;
 	}
@@ -320,6 +358,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.x = cell->GetPos().x + cell->GetSize().x / 2 + size_.x / 2;
+			oldInteractCell_[direction] = cell;
 		}
 		break;
 	}
@@ -327,6 +366,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.x = cell->GetPos().x - cell->GetSize().x / 2 - size_.x / 2;
+			oldInteractCell_[direction] = cell;
 		}
 		break;
 	}
@@ -334,6 +374,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - size_.y / 2;
+			oldInteractCell_[direction] = cell;
 		}
 		break;
 	}
@@ -347,6 +388,7 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 {
 	//とりあえず通常ブロックと同じ当たり判定
 	BlockInteract(cell, direction);
+	oldInteractCell_[direction] = cell;
 	//スピード変更
 	D3DXVECTOR2 dist = cell->GetPos() - pos_;
 	switch (direction) {
@@ -402,5 +444,17 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 	}
 	default:
 		break;
+	}
+}
+
+void Player::SpikeInteract(Cell* cell, DIRECTION direction) {
+	if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
+	{
+		Cell** find = std::find(std::begin(oldInteractCell_), std::end(oldInteractCell_), cell);
+		if (find == std::end(oldInteractCell_)) // not interacted before
+		{
+			DecreaseLife();
+			oldInteractCell_[direction] = cell;
+		}
 	}
 }

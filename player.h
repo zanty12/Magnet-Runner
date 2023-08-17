@@ -40,6 +40,8 @@ private:
 	Cell* interactCell_[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 	Cell* oldInteractCell_[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
 	DIRECTION direction_ = DIRECTION_CENTER;
+	int life_ = 3;
+	bool isClear_ = false;
 
 	Mapmngr* mapmngr_ = nullptr;
 	Map* map_ = nullptr;
@@ -57,9 +59,14 @@ public:
 	float GetRotation() { return rot_; }
 	void SetVel(D3DXVECTOR2 vel) { vel_ = vel; }
 	void SetRotation(float rot) { rot_ = rot; }
+	int GetLife() { return life_; }
+	void DecreaseLife() { if (life_ >0)life_--; }
+	void AddLife() { if(life_ < 3)life_++; }
+	bool GetIsClear() {return isClear_; }
 
 private:
 	void CellInteract(Cell* cell, DIRECTION direction);
 	void BlockInteract(Cell* cell, DIRECTION direction);
 	void PoleBlockInteract(Cell* cell, DIRECTION direction);
+	void SpikeInteract(Cell* cell, DIRECTION direction);
 };

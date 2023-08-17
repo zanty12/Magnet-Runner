@@ -2,6 +2,8 @@
 #include "sprite.h"
 #include "main.h"
 #include "gameobject.h"
+#include "gamemodules.h"
+#include "camera.h"
 
 #define CELL_SIZE 96.0f
 
@@ -14,6 +16,10 @@ typedef enum {
 	CELL_CANNON_DOWN,
 	CELL_CANNON_LEFT,
 	CELL_CANNON_RIGHT,
+	CELL_SPIKE_UP,
+	CELL_SPIKE_DOWN,
+	CELL_SPIKE_LEFT,
+	CELL_SPIKE_RIGHT,
 	CELL_MAX
 }CELL_TYPE;
 
@@ -26,7 +32,7 @@ protected:
 	int texNo_ = 0;
 	CELL_TYPE type_ = CELL_NONE;
 	POLE pole_ = POLE_NONE;
-
+	Camera* camera_ = nullptr;
 public:
 	Cell();
 	Cell(CELL_TYPE type);
