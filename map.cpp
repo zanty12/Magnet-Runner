@@ -80,6 +80,17 @@ void Map::PutCell(int x, int y, int type)
 	}
 }
 
+void Map::Update()
+{
+	for (int i = 0; i < height_; i++) {
+		for (int j = 0; j < width_; j++) {
+			if (map_[i * width_ + j] != nullptr) {
+				map_[i * width_ + j]->Update();
+			}
+		}
+	}
+}
+
 void Map::Draw()
 {
 	for (int i = 0; i < height_; i++) {

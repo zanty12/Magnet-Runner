@@ -14,7 +14,6 @@ Game::~Game() {
 
 void Game::Init() {
 	InitPolygon();
-	InitBullet();
 	mapmngr_ = new Mapmngr();
 	player_ = new Player();
 	camera_ = new Camera();
@@ -30,8 +29,8 @@ void Game::Update()
 
 	player_->Update();
 	camera_->Update();
+	mapmngr_->UpdateMap();
 
-	UpdateBullet();
 	int life = player_->GetLife();
 	if (life == 0) {
 		mngr_->SetScene(SCENE_RESULT_FAIL);
@@ -58,6 +57,5 @@ void Game::Draw()
 	mapmngr_->DrawMap();
 	//g_Camera->Draw();
 
-	DrawBullet();
 	PrintText(str, D3DXVECTOR2(100.0f, 100.0f), 0.5);
 }
