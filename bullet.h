@@ -13,24 +13,19 @@
 #include "gamemodules.h"
 #include "gameobject.h"
 
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-#define NUM_BULLET 5
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-
 class Bullet : public GameObject {
 
+private:
+	bool isActive_;
+	D3DXVECTOR2 vel_;
+	float rot_ = 0.0f;
+	Player* player_ = nullptr;
+public:
+	Bullet(D3DXVECTOR2 pos,D3DXVECTOR2 vel, float rot, POLE pole,Player*player);
+	~Bullet() = default;
+	void Update();
+	void Draw();
+	bool GetIsActive() { return isActive_; }
+
 };
-void InitBullet(void);
-void UninitBullet(void);
-void UpdateBullet(void);
-void DrawBullet(void);
-D3DXVECTOR2 GetBulletPos(int nIdx);
-int GetBulletNum();
-void DestroyBullet(int nIdx);
-bool GetBulletState(int nIdx);
-void CreateBullet(D3DXVECTOR2 pos, D3DXVECTOR2 vel, float rot);
+

@@ -65,6 +65,7 @@ public:
 	void DecreaseLife() { if (life_ >0)life_--; }
 	void AddLife() { if(life_ < 3)life_++; }
 	bool GetIsClear() {return isClear_; }
+	void Invincible() { isInvincible_ = true; }
 
 private:
 	void CellInteract(Cell* cell, DIRECTION direction);

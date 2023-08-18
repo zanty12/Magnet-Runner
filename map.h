@@ -15,6 +15,7 @@ public:
 	void PutCell(int x, int y, Cell* cell) { map_[y * width_ + x] = cell; }
 	void PutCell(int x, int y, int type);
 	Cell* GetCell(int x, int y);
+	void Update();
 	void Draw();
 	int GetWidth() { return width_; }
 	int GetHeight() { return height_; }
