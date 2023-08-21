@@ -330,6 +330,12 @@ void Player::CellInteract(Cell* cell, DIRECTION direction)
 	case CELL_SPIKE_RIGHT:
 		SpikeInteract(cell, direction);
 		break;
+	case CELL_GOAL: {
+		if (direction == DIRECTION_CENTER) {
+			isClear_ = true;
+		}
+		break;
+	}
 	default:
 		break;
 	}

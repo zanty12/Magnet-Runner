@@ -1,5 +1,5 @@
 #include "game.h"
-#include "polygon.h"
+#include "timer.h"
 #include "bullet.h"
 #include "scenemngr.h"
 #include "text.h"
@@ -9,11 +9,11 @@ Game::~Game() {
 	delete player_;
 	delete mapmngr_;
 	delete camera_;
-	UninitPolygon();
+	UninitTimer();
 }
 
 void Game::Init() {
-	InitPolygon();
+	InitTimer();
 	mapmngr_ = new Mapmngr();
 	player_ = new Player();
 	camera_ = new Camera();
@@ -25,7 +25,7 @@ void Game::Init() {
 
 void Game::Update()
 {
-	UpdatePolygon();
+	UpdateTimer();
 
 	player_->Update();
 	camera_->Update();
@@ -38,24 +38,24 @@ void Game::Update()
 	}
 	bool isClear = player_->GetIsClear();
 	if (isClear) {
-		mngr_->SetScene(SCENE_RESULT_CLEAR);
+		mngr_->SetScene(SCENE_RESULT_CLEAR,GetTimer());
 		return;
 	}
 }
 
 void Game::Draw()
 {
-	//DrawPolygon();
-	ClearText();
-	int life = player_->GetLife();
-	std::stringstream ss;
-	ss << life;
-	std::string str = ss.str();
 	
-
+	ClearText();
+	
 	player_->Draw();
 	mapmngr_->DrawMap();
-	//g_Camera->Draw();
-
+	
+	int life = player_->GetLife();
+	std::stringstream ss;
+	ss <<"life: " << life;
+	std::string str = ss.str();
 	PrintText(str, D3DXVECTOR2(100.0f, 100.0f), 0.5);
+	DrawTimer();
 }
+

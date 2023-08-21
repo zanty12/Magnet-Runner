@@ -10,7 +10,6 @@
 #include <time.h>
 #include "renderer.h"
 #include "input.h"
-#include "polygon.h"
 #include "texture.h"
 #include "sprite.h"
 #include "calculations.h"
@@ -223,7 +222,6 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitSprite();
 
 	// ’¸“_ŠÇ—‚Ì‰Šú‰»ˆ—
-	InitPolygon();
 	
 	g_Scenemngr = new Scenemngr();
 	g_Scenemngr->Init();

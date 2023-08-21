@@ -1,6 +1,6 @@
 /*==============================================================================
 
-   頂点管理[polygon.h]
+   頂点管理[timer.h]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "renderer.h"
+#include <string>
 
 //*****************************************************************************
 // マクロ定義
@@ -18,7 +19,8 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-void InitPolygon(void);
-void UninitPolygon(void);
-void UpdatePolygon(void);
-void DrawPolygon(void);
+void InitTimer(void);
+void UninitTimer(void);
+void UpdateTimer(void);
+void DrawTimer(void);
+std::string GetTimer();
