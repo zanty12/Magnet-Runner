@@ -20,8 +20,9 @@ private:
 	D3DXVECTOR2 vel_;
 	float rot_ = 0.0f;
 	Player* player_ = nullptr;
+	Camera* camera_ = nullptr;
 public:
-	Bullet(D3DXVECTOR2 pos,D3DXVECTOR2 vel, float rot, POLE pole,Player*player);
+	Bullet(D3DXVECTOR2 pos,D3DXVECTOR2 vel, float rot, POLE pole,Player*player, Camera* camera);
 	~Bullet() = default;
 	void Update();
 	void Draw();

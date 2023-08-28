@@ -60,7 +60,7 @@ void PrintText(std::string text, D3DXVECTOR2 pos, float scale) { //pos is the st
 void DrawText() {
 	for(TEXT text : textList) {
 		//Draw text
-		DrawSprite(texNo, text.pos.x, text.pos.y, textconversion[text.content].size.x * 500.0f * text.scale, textconversion[text.content].size.y * 632.0f * text.scale, textconversion[text.content].uv.x, textconversion[text.content].uv.y, textconversion[text.content].size.x, textconversion[text.content].size.y);
+		DrawSprite(texNo, text.pos.x + (textconversion[text.content].size.x * 500.0f * text.scale / 2), text.pos.y + (textconversion[text.content].size.y * 632.0f * text.scale / 2), textconversion[text.content].size.x * 500.0f * text.scale, textconversion[text.content].size.y * 632.0f * text.scale, textconversion[text.content].uv.x, textconversion[text.content].uv.y, textconversion[text.content].size.x, textconversion[text.content].size.y);
 	}
 }
 

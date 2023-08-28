@@ -137,6 +137,7 @@
     <ClCompile Include="fail.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameobject.cpp" />
+    <ClCompile Include="goal.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -146,7 +147,9 @@
     <ClCompile Include="minus.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="plus.cpp" />
-    <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="result.cpp" />
+    <ClCompile Include="savepoint.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scenemngr.cpp" />
     <ClCompile Include="sound.cpp" />
@@ -167,6 +170,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gamemodules.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="goal.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
@@ -176,7 +180,9 @@
     <ClInclude Include="minus.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="plus.h" />
-    <ClInclude Include="polygon.h" />
+    <ClInclude Include="result.h" />
+    <ClInclude Include="savepoint.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scenemngr.h" />
