@@ -3,7 +3,11 @@
 #include "bullet.h"
 #include "scenemngr.h"
 #include "text.h"
+#include "texture.h"
+#include "sprite.h"
 #include <sstream>
+
+int guideTexture;
 
 Game::~Game() {
 	delete player_;
@@ -17,10 +21,10 @@ void Game::Init() {
 	mapmngr_ = new Mapmngr();
 	player_ = new Player();
 	camera_ = new Camera();
-
+	guideTexture = LoadTexture((char*)"data/TEXTURE/control.png");
 	mapmngr_->LoadMap(fileName_);
 	camera_->Init(player_, mapmngr_);
-	player_->Init(mapmngr_, camera_);
+	player_->Init(mapmngr_, camera_,mapmngr_->GetMap()->GetStart());
 }
 
 void Game::Update()
@@ -57,5 +61,6 @@ void Game::Draw()
 	std::string str = ss.str();
 	PrintText(str, D3DXVECTOR2(100.0f, 100.0f), 0.5);
 	DrawTimer();
+	DrawSprite(guideTexture, 500.0f, 200.0f, 822.0f, 96.0f, 0.0f, 0.0f, 1.0f, 1.0f);
 }
 

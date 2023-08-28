@@ -30,9 +30,18 @@ Cannon ::~Cannon()
 
 void Cannon::Update()
 {
-	if (isShooting_&& coolTime_ == 0) {
+	//only shoot when player is  within 10 cells of the cannon
+	if (
+		abs(pos_.x - camera_->GetPlayer()->GetPos().x) < 10 * CELL_SIZE &&
+		abs(pos_.y - camera_->GetPlayer()->GetPos().y) < 10 * CELL_SIZE
+		)
+		isShooting_ = true;
+	else
+		isShooting_ = false;
+
+	if (isShooting_ && coolTime_ == 0) {
 		Shoot();
-		coolTime_ = 90;
+		coolTime_ = 100;
 	}
 
 	for (int i = 0; i < bullets_.size(); i++) {
@@ -42,8 +51,8 @@ void Cannon::Update()
 			bullets_.erase(bullets_.begin() + i);
 		}
 	}
-	
-	if(coolTime_ > 0)
+
+	if (coolTime_ > 0)
 		coolTime_--;
 }
 
@@ -70,16 +79,16 @@ void Cannon::Draw() {
 void Cannon::Shoot() {
 	switch (dir_) {
 	case(DIRECTION_UP):
-		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(0.0f, -4.0f), 0.0f, POLE_NONE,camera_->GetPlayer()));
+		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(0.0f, -4.0f), 0.0f, POLE_NONE, camera_->GetPlayer(), camera_));
 		break;
 	case(DIRECTION_DOWN):
-		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(0.0f, 4.0f), D3DX_PI, POLE_NONE, camera_->GetPlayer()));
+		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(0.0f, 4.0f), D3DX_PI, POLE_NONE, camera_->GetPlayer(), camera_));
 		break;
 	case(DIRECTION_LEFT):
-		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(-4.0f, 0.0f), D3DX_PI * 1.5f, POLE_NONE, camera_->GetPlayer()));
+		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(-4.0f, 0.0f), D3DX_PI * 1.5f, POLE_NONE, camera_->GetPlayer(), camera_));
 		break;
 	case(DIRECTION_RIGHT):
-		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(4.0f, 0.0f), D3DX_PI * 0.5f, POLE_NONE, camera_->GetPlayer()));
+		bullets_.push_back(new Bullet(pos_, D3DXVECTOR2(4.0f, 0.0f), D3DX_PI * 0.5f, POLE_NONE, camera_->GetPlayer(), camera_));
 		break;
 	}
 }

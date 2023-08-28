@@ -44,6 +44,8 @@ private:
 	bool isClear_ = false;
 	bool isInvincible_ = false;
 	int invincibleFrame_ = 180;
+	D3DXVECTOR2 startpoint_ = D3DXVECTOR2(0.0f,0.0f);
+	Cell* savepoint_ = nullptr;
 
 	Mapmngr* mapmngr_ = nullptr;
 	Map* map_ = nullptr;
@@ -54,7 +56,7 @@ public:
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel);
 	Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot);
 	~Player();
-	void Init(Mapmngr* MapmngrInstance, Camera* CameraInstance);
+	void Init(Mapmngr* MapmngrInstance, Camera* CameraInstance,D3DXVECTOR2 Start);
 	void Update(void) override;
 	void Draw(void) override;
 	D3DXVECTOR2 GetVel() { return vel_; }

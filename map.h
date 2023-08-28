@@ -7,6 +7,7 @@ private:
 	int width_ = 20;
 	int height_ = 20;
 	Cell** map_ = nullptr;
+	D3DXVECTOR2 start_ = D3DXVECTOR2(0.0f,0.0f);
 
 public:
 	Map();
@@ -26,5 +27,8 @@ public:
 		int x = (int)(pos.x / 96.0f);
 		int y = (int)(pos.y / 96.0f);
 		return GetCell(x, y);
+	}
+	D3DXVECTOR2 GetStart() {
+		return start_;
 	}
 };

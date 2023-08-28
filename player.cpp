@@ -40,7 +40,7 @@
 #define MAX_SPEED_Y 20.0f
 #define BLOCK_EFFECT_RADIUS 7 * CELL_SIZE
 #define BLOCK_ACCELX 5.0f
-#define BLOCK_ACCELY 10.0f
+#define BLOCK_ACCELY 8.0f
 #define RAY_LENGTH 7 //上下左右のブロックを探す範囲
 
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
@@ -63,10 +63,12 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
-void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance) {
+void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance, D3DXVECTOR2 Start) {
 	mapmngr_ = MapmngrInstance;
 	map_ = mapmngr_->GetMap();
 	camera_ = CameraInstance;
+	startpoint_ = Start;
+	pos_ = startpoint_;
 }
 
 Player::~Player() = default;
@@ -97,7 +99,8 @@ void Player::Update(void)
 		vel_.x = MAX_SPEED_X;
 
 	//キーボード
-	if (GetKeyboardPress(DIK_SPACE))
+
+	/*if (GetKeyboardPress(DIK_SPACE))
 	{
 		if (!jumped_ && grounded_) {
 			vel_.y = JUMP_FORCE;
@@ -105,36 +108,36 @@ void Player::Update(void)
 			grounded_ = false;
 			gravState_ = GRAV_HALF;
 		}
-	}
+	}*/
 	else if (!GetKeyboardPress(DIK_SPACE) && grounded_) {
 		jumped_ = false;
 	}
 
 	if (GetKeyboardPress(DIK_A))
 	{
-		vel_.x = -8.0f;
+		vel_.x = -9.0f;
 		isAnim = true;
 		v_ = 0.25f;
 	}
 	if (GetKeyboardPress(DIK_D))
 	{
-		vel_.x = 8.0f;
+		vel_.x = 9.0f;
 		isAnim = true;
 		v_ = 0.5f;
 	}
 
-	if (GetKeyboardPress(DIK_Q))
+	if (GetKeyboardPress(DIK_J))
 	{
 		pole_ = POLE_MINUS;
 		color_ = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 	}
-	if (GetKeyboardPress(DIK_E))
+	if (GetKeyboardPress(DIK_L))
 	{
 		pole_ = POLE_PLUS;
 		color_ = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	if (GetKeyboardPress(DIK_R))
+	if (GetKeyboardPress(DIK_K))
 	{
 		pole_ = POLE_NONE;
 		color_ = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -170,7 +173,6 @@ void Player::Update(void)
 			interactCell_[DIRECTION_UP] = nullptr;
 			oldInteractCell_[DIRECTION_UP] = nullptr;
 		}
-
 	}
 	temp = nullptr;
 	//down
@@ -185,7 +187,6 @@ void Player::Update(void)
 			interactCell_[DIRECTION_DOWN] = nullptr;
 			oldInteractCell_[DIRECTION_DOWN] = nullptr;
 		}
-
 	}
 	temp = nullptr;
 	//left
@@ -214,7 +215,6 @@ void Player::Update(void)
 			interactCell_[DIRECTION_RIGHT] = nullptr;
 			oldInteractCell_[DIRECTION_RIGHT] = nullptr;
 		}
-
 	}
 	//center
 	interactCell_[DIRECTION_CENTER] = map_->GetCell(xIndex, yIndex);
@@ -231,8 +231,17 @@ void Player::Update(void)
 		pos_.x = map_->GetWidth() * 96.0f - CELL_SIZE / 2;
 	if (pos_.y < 0.0f - size_.y / 2)
 		pos_.y = 0.0f - size_.y / 2;
-	else if (pos_.y > map_->GetHeight() * 96.0f)
-		pos_.y = map_->GetHeight() * 96.0f;
+	else if (pos_.y > map_->GetHeight() * 96.0f) {
+		if (savepoint_ != nullptr) {
+			pos_.x = savepoint_->GetPos().x;
+			pos_.y = savepoint_->GetPos().y;
+		}
+		else {
+			pos_ = startpoint_;
+		}
+		DecreaseLife();
+		isInvincible_ = true;
+	}
 
 	//ゲームパッド
 	if (IsButtonPressed(0, BUTTON_A) || GetKeyboardPress(DIK_TAB))
@@ -264,9 +273,8 @@ void Player::Update(void)
 		invincibleFrame_--;
 	if (invincibleFrame_ <= 0) {
 		isInvincible_ = false;
-		invincibleFrame_ = 180;
+		invincibleFrame_ = 90;
 	}
-	
 }
 //=============================================================================
 // 描画処理
@@ -274,20 +282,19 @@ void Player::Update(void)
 void Player::Draw(void)
 {
 	//プレイヤーの描画
-
 	float DiffX = camera_->GetPos().x - SCREEN_WIDTH / 2;
 	float DiffY = camera_->GetPos().y - SCREEN_HEIGHT / 2;
 	if (DiffX < 0)
 		DiffX = 0;
 	if (DiffY < 0)
 		DiffY = 0;
-	if (!isInvincible_ || (isInvincible_ && invincibleFrame_ / 20 % 2 == 1))
-	DrawSpriteColor(texNo_,
-		pos_.x - DiffX, pos_.y - DiffY,
-		96.0f, 96.0f,
-		u_, v_,//UV値の始点
-		ANIME_PTN_U, 0.25f,
-		color_.r, color_.g, color_.b, color_.a);
+	if (!isInvincible_ || (isInvincible_ && invincibleFrame_ / 15 % 2 == 1))
+		DrawSpriteColor(texNo_,
+			pos_.x - DiffX, pos_.y - DiffY,
+			96.0f, 96.0f,
+			u_, v_,//UV値の始点
+			ANIME_PTN_U, 0.25f,
+			color_.r, color_.g, color_.b, color_.a);
 }
 
 //セルの処理判定
@@ -330,6 +337,12 @@ void Player::CellInteract(Cell* cell, DIRECTION direction)
 	case CELL_SPIKE_RIGHT:
 		SpikeInteract(cell, direction);
 		break;
+	case CELL_SAVEPOINT: {
+		if (direction == DIRECTION_CENTER) {
+			savepoint_ = cell;
+		}
+		break;
+	}
 	case CELL_GOAL: {
 		if (direction == DIRECTION_CENTER) {
 			isClear_ = true;
@@ -349,6 +362,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - size_.y / 2;
+			vel_.y = 0.0f;
 			grounded_ = true;
 			gravState_ = GRAV_NORMAL;
 			oldInteractCell_[direction] = cell;
@@ -363,6 +377,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.y = cell->GetPos().y + cell->GetSize().y / 2 + size_.y / 2;
+			vel_.y = 0.0f;
 			oldInteractCell_[direction] = cell;
 		}
 		break;
@@ -371,6 +386,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.x = cell->GetPos().x + cell->GetSize().x / 2 + size_.x / 2;
+			vel_.x = 0.0f;
 			oldInteractCell_[direction] = cell;
 		}
 		break;
@@ -379,6 +395,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
 			pos_.x = cell->GetPos().x - cell->GetSize().x / 2 - size_.x / 2;
+			vel_.x = 0.0f;
 			oldInteractCell_[direction] = cell;
 		}
 		break;
@@ -409,6 +426,7 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 		//同極
 		if (pole_ == cell->GetPole()) {
 			vel_.y -= BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			grounded_ = false;
 			gravState_ = GRAV_HALF;
 		}
 		//異極
@@ -424,7 +442,8 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 		}
 		//異極
 		else if (pole_ != cell->GetPole() && pole_ != POLE_NONE) {
-			vel_.y -= BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.y -= (BLOCK_ACCELY * 1.2f) * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			grounded_ = false;
 			gravState_ = GRAV_HALF;
 		}
 		break;

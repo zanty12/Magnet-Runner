@@ -4,6 +4,7 @@
 #include "minus.h"
 #include "cannon.h"
 #include "spike.h"
+#include "savepoint.h"
 #include "goal.h"
 
 Map::Map()
@@ -74,6 +75,13 @@ void Map::PutCell(int x, int y, int type)
 		break;
 	case(CELL_SPIKE_RIGHT):
 		map_[y * width_ + x] = new Spike(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2), CELL_SPIKE_RIGHT);
+		break;
+	case(CELL_SAVEPOINT):
+		map_[y * width_ + x] = new Savepoint(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2));
+		break;
+	case(CELL_START):
+		map_[y * width_ + x] = nullptr;
+		start_ = D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2);
 		break;
 	case(CELL_GOAL):
 		map_[y * width_ + x] = new Goal(D3DXVECTOR2(x * 96.0f + CELL_SIZE / 2, y * 96.0f + CELL_SIZE / 2));

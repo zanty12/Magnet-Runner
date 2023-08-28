@@ -3,7 +3,7 @@
 #include "gamemodules.h"
 #include "texture.h"
 
-#define MOVE_BORDER_X 600.0f //the camera will move with the player if the player touches the border
+#define MOVE_BORDER_X 300.0f //the camera will move with the player if the player touches the border
 #define MOVE_BORDER_Y 300.0f
 #define RENDER_BUFFER 100.0f //the camera will render the objects in the buffer zone
 
