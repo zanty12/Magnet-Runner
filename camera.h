@@ -15,7 +15,7 @@ private:
 	D3DXVECTOR2 pos_;
 	D3DXVECTOR2 screenSize_ = D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT);
 	int texNo_;
-	int bgmNo_;
+
 public:
 	Camera();
 	~Camera() = default;

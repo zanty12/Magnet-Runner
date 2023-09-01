@@ -30,7 +30,7 @@ typedef enum {
 class Player : public GameObject {
 private:
 	D3DXVECTOR2		vel_ = D3DXVECTOR2(0.0f, 0.0f);	//速度ベクトル
-	float			rot_ = 0;
+	float			rot_ = 0.0f;
 	int animePattern_ = 0;
 	int animeSkipFrame_ = 0;
 	bool isGravity_ = true;
@@ -50,6 +50,10 @@ private:
 	Mapmngr* mapmngr_ = nullptr;
 	Map* map_ = nullptr;
 	Camera* camera_ = nullptr;
+
+	int moveTex_ = 0;
+	bool isMove_ = false;
+	bool animReverse_ = false;
 
 public:
 	Player();

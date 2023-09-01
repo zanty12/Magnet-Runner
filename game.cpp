@@ -4,6 +4,7 @@
 #include "scenemngr.h"
 #include "text.h"
 #include "texture.h"
+#include "sound.h"
 #include "sprite.h"
 #include <sstream>
 
@@ -25,6 +26,8 @@ void Game::Init() {
 	mapmngr_->LoadMap(fileName_);
 	camera_->Init(player_, mapmngr_);
 	player_->Init(mapmngr_, camera_,mapmngr_->GetMap()->GetStart());
+	bgmNo_ = LoadSound((char*)"data/SOUND/game.wav");
+	PlaySound(bgmNo_, -1);
 }
 
 void Game::Update()
