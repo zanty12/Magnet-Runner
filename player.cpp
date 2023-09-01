@@ -24,7 +24,7 @@
 // マクロ定義
 //*****************************************************************************
 
-#define ANIME_PTN_YOKO 3
+#define ANIME_PTN_YOKO 4
 #define ANIME_PTN_TATE 1
 #define ANIME_PTN_WAIT 5
 
@@ -44,14 +44,16 @@
 #define RAY_LENGTH 7 //上下左右のブロックを探す範囲
 
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
-	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
+	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
 Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
 {
 	vel = vel;
-	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
+	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
@@ -59,7 +61,9 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 {
 	vel = vel;
 	rot = rot;
-	texNo_ = LoadTexture((char*)"data/TEXTURE/majo.png");
+	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
+	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
+
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
 }
 
@@ -75,8 +79,6 @@ Player::~Player() = default;
 
 void Player::Update(void)
 {
-	static bool isAnim = false; // Flag to indicate if animation is active
-
 	// Adjust horizontal velocity
 	if (vel_.x < 0.0f)
 		vel_.x += 1.0f;
@@ -99,58 +101,51 @@ void Player::Update(void)
 		vel_.x = MAX_SPEED_X;
 
 	//キーボード
-
-	/*if (GetKeyboardPress(DIK_SPACE))
-	{
-		if (!jumped_ && grounded_) {
-			vel_.y = JUMP_FORCE;
-			jumped_ = true;
-			grounded_ = false;
-			gravState_ = GRAV_HALF;
-		}
-	}*/
-	else if (!GetKeyboardPress(DIK_SPACE) && grounded_) {
-		jumped_ = false;
-	}
-
 	if (GetKeyboardPress(DIK_A))
 	{
 		vel_.x = -9.0f;
-		isAnim = true;
-		v_ = 0.25f;
+		isMove_ = true;
+		if (rot_ != 0.0f)
+			animReverse_ = false;
+		else
+			animReverse_ = true;
 	}
-	if (GetKeyboardPress(DIK_D))
+	else if (GetKeyboardPress(DIK_D))
 	{
 		vel_.x = 9.0f;
-		isAnim = true;
-		v_ = 0.5f;
+		isMove_ = true;
+		if (rot_ != 0.0f)
+			animReverse_ = true;
+		else
+			animReverse_ = false;
 	}
-
+	else
+		isMove_ = false;
 	if (GetKeyboardPress(DIK_J))
 	{
 		pole_ = POLE_MINUS;
-		color_ = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+		v_ = 0.5 / 3 * 2;
 	}
 	if (GetKeyboardPress(DIK_L))
 	{
 		pole_ = POLE_PLUS;
-		color_ = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		v_ = 0.5 / 3;
 	}
 
 	if (GetKeyboardPress(DIK_K))
 	{
 		pole_ = POLE_NONE;
-		color_ = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		v_ = 0.0f;
 	}
 
-	if ((vel_.y != 0.0f && vel_.x < 0.0f) || vel_.x < 0.0f)
+	/*if ((vel_.y != 0.0f && vel_.x < 0.0f) || vel_.x < 0.0f)
 		rot_ = atan(vel_.y / vel_.x) - D3DX_PI;
 	else if (vel_.x != 0.0f || vel_.y != 0.0f)
-		rot_ = atan(vel_.y / vel_.x);
+		rot_ = atan(vel_.y / vel_.x);*/
 
 	pos_.x += vel_.x;
 	pos_.y += vel_.y;
-
+	rot_ = 0.0f;
 	//周りのマス取得
 	int xIndex = std::floor(pos_.x / size_.x);
 	int yIndex = std::floor(pos_.y / size_.y);
@@ -251,23 +246,17 @@ void Player::Update(void)
 		pos_.y = SCREEN_HEIGHT / 2;
 	}
 
-	if (isAnim == true) {
-		animeSkipFrame_++;
-		if (animeSkipFrame_ > ANIME_PTN_WAIT)
-		{
-			animeSkipFrame_ = 0;
+	animeSkipFrame_++;
+	if (animeSkipFrame_ > ANIME_PTN_WAIT)
+	{
+		animeSkipFrame_ = 0;
 
-			animePattern_++;
-			if (animePattern_ >= ANIME_PTN)
-			{
-				animePattern_ = 0;
-			}
+		animePattern_++;
+		if (animePattern_ >= ANIME_PTN)
+		{
+			animePattern_ = 0;
 		}
 	}
-	else {
-		animePattern_ = 1;
-	}
-	isAnim = false;
 	u_ = (animePattern_ % ANIME_PTN_YOKO) * ANIME_PTN_U;
 	if (isInvincible_ == true)
 		invincibleFrame_--;
@@ -288,13 +277,22 @@ void Player::Draw(void)
 		DiffX = 0;
 	if (DiffY < 0)
 		DiffY = 0;
-	if (!isInvincible_ || (isInvincible_ && invincibleFrame_ / 15 % 2 == 1))
-		DrawSpriteColor(texNo_,
-			pos_.x - DiffX, pos_.y - DiffY,
-			96.0f, 96.0f,
-			u_, v_,//UV値の始点
-			ANIME_PTN_U, 0.25f,
-			color_.r, color_.g, color_.b, color_.a);
+	if (!isInvincible_ || (isInvincible_ && invincibleFrame_ / 15 % 2 == 1)) {
+		if (!isMove_)
+			DrawSpriteColorRotate(texNo_,
+				pos_.x - DiffX, pos_.y - DiffY,
+				96.0f, 96.0f,
+				u_, v_ + animReverse_ * 0.5f,//UV値の始点
+				ANIME_PTN_U, 0.5 / 3,
+				color_.r, color_.g, color_.b, color_.a, rot_);
+		else
+			DrawSpriteColorRotate(moveTex_,
+				pos_.x - DiffX, pos_.y - DiffY,
+				96.0f, 96.0f,
+				u_, v_ + animReverse_ * 0.5f,//UV値の始点
+				ANIME_PTN_U, 0.5 / 3,
+				color_.r, color_.g, color_.b, color_.a, rot_);
+	}
 }
 
 //セルの処理判定
@@ -445,6 +443,7 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 			vel_.y -= (BLOCK_ACCELY * 1.2f) * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
 			grounded_ = false;
 			gravState_ = GRAV_HALF;
+			rot_ = D3DX_PI;
 		}
 		break;
 	}

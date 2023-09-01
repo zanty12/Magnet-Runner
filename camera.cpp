@@ -1,6 +1,6 @@
 #include "camera.h"
 #include "sprite.h"
-#include "sound.h"
+
 #include "player.h"
 #include "mapmngr.h"
 
@@ -8,8 +8,6 @@ Camera::Camera()
 {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/camera.png");
 	pos_ = D3DXVECTOR2(0, 0);
-	bgmNo_ = LoadSound((char*)"data/SOUND/night-drive.wav");
-	PlaySound(bgmNo_, -1);
 }
 
 void Camera::Init(Player* player, Mapmngr* mapmngr) {

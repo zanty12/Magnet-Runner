@@ -72,6 +72,8 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		default:
 			break;
 		}
+		/*PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
+		DrawText();*/
 		scene_->Init();
 	}
 }
@@ -102,6 +104,8 @@ void Scenemngr::SetScene(SCENENO sceneNo, std::string input)
 		default:
 			break;
 		}
+		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
+		DrawText();
 		scene_->Init();
 	}
 }

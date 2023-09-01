@@ -12,6 +12,7 @@ private:
 	Mapmngr* mapmngr_ = nullptr;
 	Camera* camera_ = nullptr;
 	const char* fileName_ = "data/MAP/map2.csv";
+	int bgmNo_;
 
 public:
 	Game() = default;
