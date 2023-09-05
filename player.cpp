@@ -132,11 +132,11 @@ void Player::Update(void)
 		v_ = 0.5 / 3;
 	}
 
-	if (GetKeyboardPress(DIK_I))
+	/*if (GetKeyboardPress(DIK_I))
 	{
 		pole_ = POLE_NONE;
 		v_ = 0.0f;
-	}
+	}*/
 
 	/*if ((vel_.y != 0.0f && vel_.x < 0.0f) || vel_.x < 0.0f)
 		rot_ = atan(vel_.y / vel_.x) - D3DX_PI;
