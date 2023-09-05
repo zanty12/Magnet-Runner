@@ -4,12 +4,15 @@
 #include "input.h"
 #include "sprite.h"
 #include "text.h"
+#include "sound.h"
 
 void Title::Init()
 {
 	titleTex_ = LoadTexture((char*)"data/TEXTURE/title.png");
 	bgTex_ = LoadTexture((char*)"data/TEXTURE/title_bg.png");
-	PrintText(std::string("press enter"), D3DXVECTOR2(520.0f, 960.0f));
+	
+	bgmNo_ = LoadSound((char*)"data/SOUND/menu.wav");
+	PlaySound(bgmNo_, -1);
 }
 
 void Title::Update()
@@ -21,6 +24,8 @@ void Title::Update()
 
 void Title::Draw()
 {
+	ClearText();
+	PrintText(std::string("press enter"), D3DXVECTOR2(520.0f, 960.0f));
 	DrawSprite(bgTex_,
 		SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
 		SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -29,7 +34,7 @@ void Title::Draw()
 	);
 	DrawSprite(titleTex_,
 		960, 264.0f,
-		991.0f, 264.0f,
+		1024.0f, 339.0f,
 		0.0f, 0.0f,//UV’l‚ÌŽn“_
 		1.0f, 1.0
 	);

@@ -3,6 +3,7 @@
 #include "text.h"
 #include "sprite.h"
 #include "input.h"
+#include "sound.h"
 
 Menu::~Menu()
 {
@@ -16,10 +17,11 @@ Menu::~Menu()
 void Menu::Init()
 {
 	bgTex_ = LoadTexture((char*)"data/TEXTURE/menu_bg.png");
-	PrintText(std::string("select stage"), D3DXVECTOR2(500.0f, 100.0f));
 	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("level 1"), std::string("data/MAP/map1.csv"), 400.0f, 400.0f));
 	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("level 2"), std::string("data/MAP/map2.csv"), 800.0f, 400.0f));
 	options.front()->SetChosen(true);
+	bgmNo_ = LoadSound((char*)"data/SOUND/menu.wav");
+	PlaySound(bgmNo_, -1);
 }
 
 void Menu::Update()
@@ -71,6 +73,8 @@ void Menu::Update()
 
 void Menu::Draw()
 {
+	ClearText();
+	PrintText(std::string("select stage"), D3DXVECTOR2(500.0f, 100.0f));
 	DrawSprite(bgTex_,
 				SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
 				SCREEN_WIDTH, SCREEN_HEIGHT,

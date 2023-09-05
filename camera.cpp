@@ -61,7 +61,7 @@ void Camera::Draw()
 		screenSize_.x, screenSize_.y,
 		0.0f, 0.0f,//UVÅfl???nÅg_
 		1.0f, 1.0f,
-		0.0f, 1.0f, 0.0f, 0.3f);
+		1.0f, 1.0f, 1.0f, 0.5f);
 }
 
 bool Camera::InCamera(D3DXVECTOR2 pos)

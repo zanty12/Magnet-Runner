@@ -246,9 +246,7 @@ void Uninit(void)
 
 	// テクスチャの全解放
 	UninitTexture();
-
 	
-
 	UninitSound();
 	// 入力処理の終了処理
 	UninitInput();	

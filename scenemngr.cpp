@@ -6,6 +6,7 @@
 #include "text.h"
 #include "fail.h"
 #include "result.h"
+#include "sound.h"
 
 Scenemngr::Scenemngr()
 {
@@ -53,6 +54,9 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		sceneNo_ = sceneNo;
 		delete scene_;
 		ClearText();
+		StopSoundAll();
+		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
+		DrawText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
 			scene_ = new Title(this);
@@ -67,14 +71,14 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 			scene_ = new Fail(this);
 			break;
 		case SCENE_RESULT_CLEAR:
-			//scene_ = new Result();
+			scene_ = new Result(this,"na");
 			break;
 		default:
 			break;
 		}
-		/*PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
-		DrawText();*/
+		
 		scene_->Init();
+		ClearText();
 	}
 }
 
@@ -84,6 +88,9 @@ void Scenemngr::SetScene(SCENENO sceneNo, std::string input)
 		sceneNo_ = sceneNo;
 		delete scene_;
 		ClearText();
+		StopSoundAll();
+		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
+		DrawText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
 			scene_ = new Title(this);
@@ -104,8 +111,7 @@ void Scenemngr::SetScene(SCENENO sceneNo, std::string input)
 		default:
 			break;
 		}
-		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
-		DrawText();
 		scene_->Init();
+		ClearText();
 	}
 }

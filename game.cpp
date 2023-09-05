@@ -54,7 +54,7 @@ void Game::Draw()
 {
 	
 	ClearText();
-	
+	camera_->Draw();
 	player_->Draw();
 	mapmngr_->DrawMap();
 	
