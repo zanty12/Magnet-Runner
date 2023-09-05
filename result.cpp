@@ -4,10 +4,13 @@
 #include "input.h"
 #include "sprite.h"
 #include <sstream>
+#include "sound.h"
 
 void Result::Init()
 {
 	bgTex_ = LoadTexture((char*)"data/TEXTURE/result_bg.png");
+	bgmNo_ = LoadSound((char*)"data/SOUND/win.wav");
+	PlaySound(bgmNo_, -1);
 	
 }
 

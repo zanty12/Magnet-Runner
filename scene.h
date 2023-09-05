@@ -6,7 +6,7 @@ class Scene
 {
 protected:
 	Scenemngr* mngr_ = nullptr;
-
+	int bgmNo_ = -1;
 public:
 	Scene() = default;
 	Scene(Scenemngr* mngr) : mngr_(mngr) {}

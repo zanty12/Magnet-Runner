@@ -132,7 +132,7 @@ void Player::Update(void)
 		v_ = 0.5 / 3;
 	}
 
-	if (GetKeyboardPress(DIK_K))
+	if (GetKeyboardPress(DIK_I))
 	{
 		pole_ = POLE_NONE;
 		v_ = 0.0f;
