@@ -17,9 +17,10 @@ Menu::~Menu()
 void Menu::Init()
 {
 	bgTex_ = LoadTexture((char*)"data/TEXTURE/menu_bg.png");
-	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("startup"), std::string("data/MAP/map1.csv"), 400.0f, 400.0f));
-	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("dash"), std::string("data/MAP/map2.csv"), 800.0f, 400.0f));
-	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("danger"), std::string("data/MAP/map3.csv"), 1200.0f, 400.0f));
+	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("startup"), std::string("data/MAP/map1.csv"), 380.0f, 400.0f));
+	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("dash"), std::string("data/MAP/map2.csv"), 780.0f, 400.0f));
+	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("danger"), std::string("data/MAP/map3.csv"), 1180.0f, 400.0f));
+	options.push_back(new Menuopt(LoadTexture((char*)"data/TEXTURE/menuopt_bg.png"), LoadTexture((char*)"data/TEXTURE/level1.png"), std::string("vertigo"), std::string("data/MAP/map4.csv"), 1580.0f, 400.0f));
 	options.front()->SetChosen(true);
 	bgmNo_ = LoadSound((char*)"data/SOUND/menu.wav");
 	PlaySound(bgmNo_, -1);

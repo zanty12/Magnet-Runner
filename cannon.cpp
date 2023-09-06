@@ -7,15 +7,19 @@ Cannon::Cannon(D3DXVECTOR2 pos, CELL_TYPE type) : Cell(pos, type)
 	switch (type) {
 	case(CELL_CANNON_LEFT):
 		dir_ = DIRECTION_LEFT;
+		rot_ = D3DX_PI * 1.5f;
 		break;
 	case(CELL_CANNON_RIGHT):
 		dir_ = DIRECTION_RIGHT;
+		rot_ = D3DX_PI * 0.5f;
 		break;
 	case(CELL_CANNON_UP):
 		dir_ = DIRECTION_UP;
+		rot_ = 0.0f;
 		break;
 	case(CELL_CANNON_DOWN):
 		dir_ = DIRECTION_DOWN;
+		rot_ = D3DX_PI;
 		break;
 	}
 }
@@ -33,7 +37,7 @@ void Cannon::Update()
 	//only shoot when player is  within 10 cells of the cannon
 	if (
 		abs(pos_.x - camera_->GetPlayer()->GetPos().x) < 10 * CELL_SIZE &&
-		abs(pos_.y - camera_->GetPlayer()->GetPos().y) < 10 * CELL_SIZE
+		abs(pos_.y - camera_->GetPlayer()->GetPos().y) < 5 * CELL_SIZE
 		)
 		isShooting_ = true;
 	else
@@ -41,7 +45,7 @@ void Cannon::Update()
 
 	if (isShooting_ && coolTime_ == 0) {
 		Shoot();
-		coolTime_ = 100;
+		coolTime_ = 120;
 	}
 
 	for (int i = 0; i < bullets_.size(); i++) {
@@ -64,12 +68,12 @@ void Cannon::Draw() {
 			DiffX = 0;
 		if (DiffY < 0)
 			DiffY = 0;
-		DrawSpriteColor(texNo_,
+		DrawSpriteColorRotate(texNo_,
 			pos_.x - DiffX, pos_.y - DiffY,
 			size_.x, size_.y,
 			0.0f, 0.0f,//UV’l‚ÌŽn“_
 			1.0f, 1.0,
-			color_.r, color_.g, color_.b, color_.a);
+			color_.r, color_.g, color_.b, color_.a,rot_);
 	}
 	for (auto& bullet : bullets_) {
 		bullet->Draw();

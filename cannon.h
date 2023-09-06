@@ -13,6 +13,7 @@ private :
 	bool isShooting_ = true;
 	int coolTime_ = 30;
 	DIRECTION dir_ = DIRECTION_LEFT;
+	float rot_;
 	public:
 		Cannon (D3DXVECTOR2 pos, CELL_TYPE type);
 		~Cannon() override;
