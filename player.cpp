@@ -35,11 +35,10 @@
 #define GRAVITY_ACCEL 5.0f
 #define MAX_GRAVITY 15.0f
 
-#define MAX_SPEED_X 10.0f
-#define MAX_SPEED_Y 15.0f
-#define BLOCK_EFFECT_RADIUS 7 * CELL_SIZE
+#define MAX_SPEED_X 12.0f
+#define MAX_SPEED_Y 30.0f
 #define BLOCK_ACCELX 30.0f
-#define BLOCK_ACCELY 8.0f
+#define BLOCK_ACCELY 40.0f
 #define RAY_LENGTH 5 //上下左右のブロックを探す範囲
 
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
@@ -82,7 +81,7 @@ void Player::Update(void)
 	if (isGravity_) {
 		if (vel_.y < MAX_GRAVITY) {
 			if (gravState_ == GRAV_HALF)
-				vel_.y += GRAVITY_ACCEL / 2;
+				vel_.y += GRAVITY_ACCEL / 1.2;
 			else
 				vel_.y += GRAVITY_ACCEL;
 		}
@@ -93,8 +92,8 @@ void Player::Update(void)
 	//キーボード
 	if (GetKeyboardPress(DIK_A))
 	{
-		if (gravState_ != GRAV_HALF)
-			vel_.x -= 9.0f;
+		if (!airControl_)
+			vel_.x -= 10.0f;
 		else
 			vel_.x -= 4.0f;
 		isMove_ = true;
@@ -105,8 +104,8 @@ void Player::Update(void)
 	}
 	else if (GetKeyboardPress(DIK_D))
 	{
-		if (gravState_ != GRAV_HALF)
-			vel_.x += 9.0f;
+		if (!airControl_)
+			vel_.x += 10.0f;
 		else
 			vel_.x += 4.0f;
 		isMove_ = true;
@@ -119,18 +118,17 @@ void Player::Update(void)
 		isMove_ = false;
 		if (vel_.x < 0.0f) {
 			vel_.x += 1.0f;
-			if(vel_.x > 0.0f)
+			if (vel_.x > 0.0f)
 				vel_.x = 0.0f;
 		}
-			
+
 		else if (vel_.x > 0.0f) {
 			vel_.x -= 1.0f;
-			if(vel_.x < 0.0f)
+			if (vel_.x < 0.0f)
 				vel_.x = 0.0f;
 		}
-			
 	}
-		
+
 	if (GetKeyboardPress(DIK_J))
 	{
 		pole_ = POLE_MINUS;
@@ -155,11 +153,11 @@ void Player::Update(void)
 		else if (vel_.x > MAX_SPEED_X * 2.5f)
 			vel_.x = MAX_SPEED_X * 2.5f;
 	}
-	if(vel_.x < -MAX_SPEED_Y)
-		vel_.x = -MAX_SPEED_Y;
+	if (vel_.y < -MAX_SPEED_Y)
+		vel_.y = -MAX_SPEED_Y;
 
-	else if (vel_.x > MAX_SPEED_Y)
-		vel_.x = MAX_SPEED_Y;
+	else if (vel_.y > MAX_SPEED_Y)
+		vel_.y = MAX_SPEED_Y;
 
 	pos_.x += vel_.x;
 	pos_.y += vel_.y;
@@ -236,8 +234,21 @@ void Player::Update(void)
 	for (int i = 0; i < DIRECTION_MAX; i++) {
 		CellInteract(interactCell_[i], (DIRECTION)i);
 	}
-	if (interactCell_[DIRECTION_LEFT] == nullptr && interactCell_[DIRECTION_RIGHT] == nullptr) {
-		airControl_ = false;
+	if (interactCell_[DIRECTION_LEFT] == nullptr) {
+		if (interactCell_[DIRECTION_RIGHT] == nullptr) {
+			airControl_ = false;
+		}
+		else if (interactCell_[DIRECTION_RIGHT]->GetPole() == POLE_NONE) {
+			airControl_ = false;
+		}
+	}
+	else if (interactCell_[DIRECTION_LEFT]->GetPole() == POLE_NONE) {
+		if (interactCell_[DIRECTION_RIGHT] == nullptr) {
+			airControl_ = false;
+		}
+		else if (interactCell_[DIRECTION_RIGHT]->GetPole() == POLE_NONE) {
+			airControl_ = false;
+		}
 	}
 	//画面外に出ないようにする
 	if (pos_.x < size_.x / 2)
@@ -431,12 +442,12 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 	oldInteractCell_[direction] = cell;
 	//スピード変更
 	D3DXVECTOR2 dist = cell->GetPos() - pos_;
-	float len = D3DXVec2Length(&dist) / CELL_SIZE < 1 ? 1 : D3DXVec2Length(&dist) / CELL_SIZE;
+	float len = D3DXVec2Length(&dist) / CELL_SIZE < 0.5f ? 0.5f : D3DXVec2Length(&dist) / CELL_SIZE;
 	switch (direction) {
 	case DIRECTION_DOWN: {
 		//同極
 		if (pole_ == cell->GetPole()) {
-			vel_.y -= BLOCK_ACCELY * (1 / len) > GRAVITY_ACCEL ? BLOCK_ACCELY * (1 / len) : GRAVITY_ACCEL;
+			vel_.y -= BLOCK_ACCELY* 1.2f * (1 / len) > GRAVITY_ACCEL ? BLOCK_ACCELY * (1 / len) : GRAVITY_ACCEL;
 			//vel_.y -= BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
 			grounded_ = false;
 			gravState_ = GRAV_HALF;
