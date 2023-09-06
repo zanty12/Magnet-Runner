@@ -57,6 +57,24 @@ void PrintText(std::string text, D3DXVECTOR2 pos, float scale) { //pos is the st
 	}
 }
 
+float GetTextWidth(std::string text, float scale) {
+	float x = 0.0f;
+	for (char word : text) {
+		if (word != ' ' && word != '\n') {
+			//get the width of the letter
+			std::map<char, TEXTPROP>::iterator iter = textconversion.find(word);
+			TEXTPROP textprop = iter->second;
+			float width = textprop.size.x * 500.0f * scale;
+			//update cur_Pos
+			x += width + 8.0f * scale;
+		}
+		else if (word == ' ') {
+			x += 80.0f * scale;
+		}
+	}
+	return x;
+}
+
 void DrawText() {
 	for(TEXT text : textList) {
 		//Draw text

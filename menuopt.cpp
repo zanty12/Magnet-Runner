@@ -27,5 +27,7 @@ void Menuopt::Draw() {
 				0.0f, 0.0f,//UV’l‚ÌŽn“_
 				1.0f, 1.0
 		);
-	PrintText(level_, D3DXVECTOR2(pos_.x-120.0f, pos_.y+100.0f), 0.5f);
+	float textx = GetTextWidth(level_, 0.5f);
+	textx = (350.0f - textx) / 2;
+	PrintText(level_, D3DXVECTOR2(pos_.x - 350.0f / 2 + textx, pos_.y+100.0f), 0.5f);
 }

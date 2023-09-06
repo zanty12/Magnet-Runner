@@ -35,4 +35,5 @@ void Result::Draw() {
 	ss << "time: " << result_;
 	std::string str = ss.str();
 	PrintText(str, D3DXVECTOR2(400.0f, 900.0f));
+	DrawText();
 }

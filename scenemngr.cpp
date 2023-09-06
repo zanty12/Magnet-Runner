@@ -45,7 +45,6 @@ void Scenemngr::Update() {
 }
 void Scenemngr::Draw() {
 	scene_->Draw();
-	DrawText();
 }
 
 void Scenemngr::SetScene(SCENENO sceneNo)
@@ -53,10 +52,7 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 	if (sceneNo != sceneNo_) {
 		sceneNo_ = sceneNo;
 		delete scene_;
-		ClearText();
 		StopSoundAll();
-		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
-		DrawText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
 			scene_ = new Title(this);
@@ -76,7 +72,6 @@ void Scenemngr::SetScene(SCENENO sceneNo)
 		default:
 			break;
 		}
-		
 		scene_->Init();
 		ClearText();
 	}
@@ -87,10 +82,7 @@ void Scenemngr::SetScene(SCENENO sceneNo, std::string input)
 	if (sceneNo != sceneNo_) {
 		sceneNo_ = sceneNo;
 		delete scene_;
-		ClearText();
 		StopSoundAll();
-		PrintText("loading", D3DXVECTOR2(50.0f, 900.0f));
-		DrawText();
 		switch (sceneNo) {
 		case SCENE_TITLE:
 			scene_ = new Title(this);

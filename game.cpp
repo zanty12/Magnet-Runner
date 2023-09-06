@@ -64,6 +64,7 @@ void Game::Draw()
 	std::string str = ss.str();
 	PrintText(str, D3DXVECTOR2(100.0f, 100.0f), 0.5);
 	DrawTimer();
-	DrawSprite(guideTexture, 500.0f, 200.0f, 822.0f, 96.0f, 0.0f, 0.0f, 1.0f, 1.0f);
+	DrawSprite(guideTexture, 500.0f, 200.0f, 737.0f, 96.0f, 0.0f, 0.0f, 1.0f, 1.0f);
+	DrawText();
 }
 
