@@ -35,6 +35,7 @@ private:
 	int animeSkipFrame_ = 0;
 	bool isGravity_ = true;
 	GRAV_STATE gravState_ = GRAV_NORMAL;
+	bool airControl_ = false;
 	bool jumped_ = false;
 	bool grounded_ = false;
 	Cell* interactCell_[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
@@ -46,6 +47,7 @@ private:
 	int invincibleFrame_ = 180;
 	D3DXVECTOR2 startpoint_ = D3DXVECTOR2(0.0f,0.0f);
 	Cell* savepoint_ = nullptr;
+
 
 	Mapmngr* mapmngr_ = nullptr;
 	Map* map_ = nullptr;

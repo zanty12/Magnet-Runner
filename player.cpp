@@ -32,16 +32,15 @@
 #define ANIME_PTN_U (1.0f / ANIME_PTN_YOKO)
 #define ANIME_PTN_V (1.0f / ANIME_PTN_TATE)
 
-#define GRAVITY_ACCEL 4.0f
-#define MAX_GRAVITY 20.0f
-#define JUMP_FORCE -30.0f
+#define GRAVITY_ACCEL 5.0f
+#define MAX_GRAVITY 15.0f
 
 #define MAX_SPEED_X 10.0f
-#define MAX_SPEED_Y 20.0f
+#define MAX_SPEED_Y 15.0f
 #define BLOCK_EFFECT_RADIUS 7 * CELL_SIZE
-#define BLOCK_ACCELX 5.0f
+#define BLOCK_ACCELX 30.0f
 #define BLOCK_ACCELY 8.0f
-#define RAY_LENGTH 7 //上下左右のブロックを探す範囲
+#define RAY_LENGTH 5 //上下左右のブロックを探す範囲
 
 Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
@@ -79,12 +78,6 @@ Player::~Player() = default;
 
 void Player::Update(void)
 {
-	// Adjust horizontal velocity
-	if (vel_.x < 0.0f)
-		vel_.x += 1.0f;
-	else if (vel_.x > 0.0f)
-		vel_.x -= 1.0f;
-
 	// Apply gravity if enabled
 	if (isGravity_) {
 		if (vel_.y < MAX_GRAVITY) {
@@ -96,14 +89,14 @@ void Player::Update(void)
 		if (vel_.y >= MAX_GRAVITY)
 			vel_.y = MAX_GRAVITY;
 	}
-	// Limit horizontal velocity
-	if (vel_.x > MAX_SPEED_X)
-		vel_.x = MAX_SPEED_X;
 
 	//キーボード
 	if (GetKeyboardPress(DIK_A))
 	{
-		vel_.x = -9.0f;
+		if (gravState_ != GRAV_HALF)
+			vel_.x -= 9.0f;
+		else
+			vel_.x -= 4.0f;
 		isMove_ = true;
 		if (rot_ != 0.0f)
 			animReverse_ = false;
@@ -112,15 +105,32 @@ void Player::Update(void)
 	}
 	else if (GetKeyboardPress(DIK_D))
 	{
-		vel_.x = 9.0f;
+		if (gravState_ != GRAV_HALF)
+			vel_.x += 9.0f;
+		else
+			vel_.x += 4.0f;
 		isMove_ = true;
 		if (rot_ != 0.0f)
 			animReverse_ = true;
 		else
 			animReverse_ = false;
 	}
-	else
+	else {
 		isMove_ = false;
+		if (vel_.x < 0.0f) {
+			vel_.x += 1.0f;
+			if(vel_.x > 0.0f)
+				vel_.x = 0.0f;
+		}
+			
+		else if (vel_.x > 0.0f) {
+			vel_.x -= 1.0f;
+			if(vel_.x < 0.0f)
+				vel_.x = 0.0f;
+		}
+			
+	}
+		
 	if (GetKeyboardPress(DIK_J))
 	{
 		pole_ = POLE_MINUS;
@@ -132,16 +142,24 @@ void Player::Update(void)
 		v_ = 0.5 / 3;
 	}
 
-	/*if (GetKeyboardPress(DIK_I))
-	{
-		pole_ = POLE_NONE;
-		v_ = 0.0f;
-	}*/
+	// Limit horizontal velocity
+	if (!airControl_) {
+		if (vel_.x < -MAX_SPEED_X)
+			vel_.x = -MAX_SPEED_X;
+		else if (vel_.x > MAX_SPEED_X)
+			vel_.x = MAX_SPEED_X;
+	}
+	else {
+		if (vel_.x < -MAX_SPEED_X * 2.5f)
+			vel_.x = -MAX_SPEED_X * 2.5f;
+		else if (vel_.x > MAX_SPEED_X * 2.5f)
+			vel_.x = MAX_SPEED_X * 2.5f;
+	}
+	if(vel_.x < -MAX_SPEED_Y)
+		vel_.x = -MAX_SPEED_Y;
 
-	/*if ((vel_.y != 0.0f && vel_.x < 0.0f) || vel_.x < 0.0f)
-		rot_ = atan(vel_.y / vel_.x) - D3DX_PI;
-	else if (vel_.x != 0.0f || vel_.y != 0.0f)
-		rot_ = atan(vel_.y / vel_.x);*/
+	else if (vel_.x > MAX_SPEED_Y)
+		vel_.x = MAX_SPEED_Y;
 
 	pos_.x += vel_.x;
 	pos_.y += vel_.y;
@@ -218,7 +236,9 @@ void Player::Update(void)
 	for (int i = 0; i < DIRECTION_MAX; i++) {
 		CellInteract(interactCell_[i], (DIRECTION)i);
 	}
-
+	if (interactCell_[DIRECTION_LEFT] == nullptr && interactCell_[DIRECTION_RIGHT] == nullptr) {
+		airControl_ = false;
+	}
 	//画面外に出ないようにする
 	if (pos_.x < size_.x / 2)
 		pos_.x = size_.x / 2;
@@ -236,14 +256,6 @@ void Player::Update(void)
 		}
 		DecreaseLife();
 		isInvincible_ = true;
-	}
-
-	//ゲームパッド
-	if (IsButtonPressed(0, BUTTON_A) || GetKeyboardPress(DIK_TAB))
-	{
-		//座標のリセット
-		pos_.x = SCREEN_WIDTH / 2;
-		pos_.y = SCREEN_HEIGHT / 2;
 	}
 
 	animeSkipFrame_++;
@@ -401,7 +413,7 @@ void Player::BlockInteract(Cell* cell, DIRECTION direction)
 	case DIRECTION_CENTER: {
 		if (CheckHitBB(pos_.x, pos_.y, size_.x, size_.y, cell->GetPos().x, cell->GetPos().y, cell->GetSize().x, cell->GetSize().y))
 		{
-			pos_.y = cell->GetPos().y - cell->GetSize().y / 2 - size_.y / 2;
+			pos_.y = cell->GetPos().y + cell->GetSize().y / 2 + size_.y / 2;
 			oldInteractCell_[direction] = cell;
 		}
 		break;
@@ -419,29 +431,30 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 	oldInteractCell_[direction] = cell;
 	//スピード変更
 	D3DXVECTOR2 dist = cell->GetPos() - pos_;
+	float len = D3DXVec2Length(&dist) / CELL_SIZE < 1 ? 1 : D3DXVec2Length(&dist) / CELL_SIZE;
 	switch (direction) {
 	case DIRECTION_DOWN: {
 		//同極
 		if (pole_ == cell->GetPole()) {
-			vel_.y -= BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.y -= BLOCK_ACCELY * (1 / len) > GRAVITY_ACCEL ? BLOCK_ACCELY * (1 / len) : GRAVITY_ACCEL;
+			//vel_.y -= BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
 			grounded_ = false;
 			gravState_ = GRAV_HALF;
 		}
 		//異極
 		else if (pole_ != cell->GetPole() && pole_ != POLE_NONE) {
-			vel_.y += BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.y += BLOCK_ACCELY * (1 / len) > GRAVITY_ACCEL ? BLOCK_ACCELY * (1 / len) : GRAVITY_ACCEL;
 		}
 		break;
 	}
 	case DIRECTION_UP: {
 		//同極
 		if (pole_ == cell->GetPole()) {
-			vel_.y += BLOCK_ACCELY * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.y += BLOCK_ACCELY * (1 / len) > GRAVITY_ACCEL ? BLOCK_ACCELY * (1 / len) : GRAVITY_ACCEL;
 		}
 		//異極
 		else if (pole_ != cell->GetPole() && pole_ != POLE_NONE) {
-			vel_.y -= (BLOCK_ACCELY * 1.2f) * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
-			grounded_ = false;
+			vel_.y -= (BLOCK_ACCELY * 1.2f) * (1 / len) > GRAVITY_ACCEL ? (BLOCK_ACCELY * 1.2f) * (1 / len) : GRAVITY_ACCEL;
 			gravState_ = GRAV_HALF;
 			rot_ = D3DX_PI;
 		}
@@ -450,23 +463,26 @@ void Player::PoleBlockInteract(Cell* cell, DIRECTION direction)
 	case DIRECTION_LEFT: {
 		//同極
 		if (pole_ == cell->GetPole()) {
-			vel_.x += BLOCK_ACCELX * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.x += BLOCK_ACCELX * (1 / len);
+			airControl_ = true;
 		}
 		//異極
 		else if (pole_ != cell->GetPole() && pole_ != POLE_NONE) {
-			vel_.x -= BLOCK_ACCELX * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
-			gravState_ = GRAV_HALF;
+			vel_.x -= BLOCK_ACCELX * (1 / len);
+			airControl_ = true;
 		}
+		break;
 	}
 	case DIRECTION_RIGHT: {
 		//同極
 		if (pole_ == cell->GetPole()) {
-			vel_.x -= BLOCK_ACCELX * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
+			vel_.x -= BLOCK_ACCELX * (1 / len);
+			airControl_ = true;
 		}
 		//異極
 		else if (pole_ != cell->GetPole() && pole_ != POLE_NONE) {
-			vel_.x += BLOCK_ACCELX * (1 / (D3DXVec2Length(&dist) / CELL_SIZE));
-			gravState_ = GRAV_HALF;
+			vel_.x += BLOCK_ACCELX * (1 / len);
+			airControl_ = true;
 		}
 		break;
 	}

@@ -11,6 +11,7 @@ typedef struct {
 } TEXT;
 
 void InitText();
+float GetTextWidth(std::string text, float scale = 1.0f);
 void PrintText(std::string text, D3DXVECTOR2 pos);
 void PrintText(std::string text, D3DXVECTOR2 pos, float scale);
 void DrawText();
