@@ -139,7 +139,8 @@ void Player::Update(void)
 		pole_ = POLE_PLUS;
 		v_ = 0.5 / 3;
 	}
-
+	//TODO : add reset
+	
 	// Limit horizontal velocity
 	if (!airControl_) {
 		if (vel_.x < -MAX_SPEED_X)
@@ -360,7 +361,10 @@ void Player::CellInteract(Cell* cell, DIRECTION direction)
 		break;
 	case CELL_SAVEPOINT: {
 		if (direction == DIRECTION_CENTER) {
-			savepoint_ = cell;
+			if (savepoint_ != cell) {
+				savepoint_ = cell;
+				life_++;
+			}
 		}
 		break;
 	}
