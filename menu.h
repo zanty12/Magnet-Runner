@@ -7,6 +7,8 @@ class Menu :
 {
 private:
 	int bgTex_ = 0;
+	int chooseSe_ = 0;
+	int decideSe_ = 0;
 	std::vector<Menuopt*> options;
 	
 public:

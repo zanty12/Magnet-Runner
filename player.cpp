@@ -45,6 +45,8 @@ Player::Player() : GameObject(D3DXVECTOR2(960.0f, 540.0f)) {
 	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
 	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
+	changeSe_ = LoadSound((char*)"data/SOUND/change.wav");
+	damageSe_ = LoadSound((char*)"data/SOUND/damage.wav");
 }
 
 Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
@@ -53,6 +55,8 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel) : GameObject(pos)
 	texNo_ = LoadTexture((char*)"data/TEXTURE/player_idle.png");
 	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
+	changeSe_ = LoadSound((char*)"data/SOUND/change.wav");
+	damageSe_ = LoadSound((char*)"data/SOUND/damage.wav");
 }
 
 Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : GameObject(pos, color)
@@ -63,6 +67,8 @@ Player::Player(D3DXVECTOR2 pos, D3DXVECTOR2 vel, D3DXCOLOR color, float rot) : G
 	moveTex_ = LoadTexture((char*)"data/TEXTURE/player_move.png");
 
 	size_ = D3DXVECTOR2(96.0f, 96.0f);
+	changeSe_ = LoadSound((char*)"data/SOUND/change.wav");
+	damageSe_ = LoadSound((char*)"data/SOUND/damage.wav");
 }
 
 void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance, D3DXVECTOR2 Start) {
@@ -71,6 +77,8 @@ void Player::Init(Mapmngr* MapmngrInstance, Camera* CameraInstance, D3DXVECTOR2 
 	camera_ = CameraInstance;
 	startpoint_ = Start;
 	pos_ = startpoint_;
+	changeSe_ = LoadSound((char*)"data/SOUND/change.wav");
+	damageSe_ = LoadSound((char*)"data/SOUND/damage.wav");
 }
 
 Player::~Player() = default;
@@ -81,7 +89,7 @@ void Player::Update(void)
 	if (isGravity_) {
 		if (vel_.y < MAX_GRAVITY) {
 			if (gravState_ == GRAV_HALF)
-				vel_.y += GRAVITY_ACCEL / 1.2;
+				vel_.y += GRAVITY_ACCEL / 1.2f;
 			else
 				vel_.y += GRAVITY_ACCEL;
 		}
@@ -131,16 +139,31 @@ void Player::Update(void)
 
 	if (GetKeyboardPress(DIK_J))
 	{
+		PlaySound(changeSe_, 0);
 		pole_ = POLE_MINUS;
-		v_ = 0.5 / 3 * 2;
+		v_ = 0.5f / 3 * 2;
 	}
 	if (GetKeyboardPress(DIK_L))
 	{
+		PlaySound(changeSe_, 0);
 		pole_ = POLE_PLUS;
-		v_ = 0.5 / 3;
+		v_ = 0.5f / 3;
 	}
-	//TODO : add reset
-	
+	if(GetKeyboardPress(DIK_R))
+	{
+		if (savepoint_ != nullptr) {
+			pos_ = savepoint_->GetPos();
+			vel_.x = 0.0f;
+			vel_.y = 0.0f;
+		}
+		else {
+			pos_ = startpoint_;
+			vel_.x = 0.0f;
+			vel_.y = 0.0f;
+		}
+	}
+
+
 	// Limit horizontal velocity
 	if (!airControl_) {
 		if (vel_.x < -MAX_SPEED_X)
@@ -307,14 +330,14 @@ void Player::Draw(void)
 				pos_.x - DiffX, pos_.y - DiffY,
 				96.0f, 96.0f,
 				u_, v_ + animReverse_ * 0.5f,//UV値の始点
-				ANIME_PTN_U, 0.5 / 3,
+				ANIME_PTN_U, 0.5f / 3,
 				color_.r, color_.g, color_.b, color_.a, rot_);
 		else
 			DrawSpriteColorRotate(moveTex_,
 				pos_.x - DiffX, pos_.y - DiffY,
 				96.0f, 96.0f,
 				u_, v_ + animReverse_ * 0.5f,//UV値の始点
-				ANIME_PTN_U, 0.5 / 3,
+				ANIME_PTN_U, 0.5f / 3,
 				color_.r, color_.g, color_.b, color_.a, rot_);
 	}
 }
